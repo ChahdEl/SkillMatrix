@@ -89,8 +89,6 @@ export class ApiService {
     );
   }
 
-
-
   updateOperator(operator: UserProfile): Observable<any> {
     const url = `${this.APIURL}Update_Operator_By_Matricule`;
     const params = {
@@ -116,10 +114,6 @@ checkLevelsByOperatorAndStation(matricule: number, station: string): Observable<
   );
 }
 
-
-
-
-  // New method to get past stations and levels by operator's Matricule
   GET_PastStations_By_Operator(Matricule: number): Observable<any> {
     return this.http.get<any>(`${this.APIURL}GET_PastStations_By_Operator?Matricule=${Matricule}`);
   }
@@ -141,12 +135,6 @@ updateLevelScoreAndAnswers(matricule: number, level: number, score: number,Curre
   );
 }
 
-
-
-
-
-
-
 updateOperatorLevel(matricule: number, newLevel: number): Observable<any> {
   const url = `${this.APIURL}Update_Operator_Level`;
 
@@ -161,7 +149,6 @@ updateOperatorLevel(matricule: number, newLevel: number): Observable<any> {
   );
 }
 
-
 deleteOperatorByMatricule(matricule: number): Observable<any> {
   const url = `${this.APIURL}Update_Operator_IsActive`;
   const params = { Matricule: matricule.toString() };
@@ -173,10 +160,8 @@ deleteOperatorByMatricule(matricule: number): Observable<any> {
   );
 }
 
-
 GET_Disabled_Operators_By_TLNZ(NetID: string): Observable<any> {
   return this.http.get<any>(`${this.APIURL}GET_Disabled_Operators_By_TLNZ?NetID=${NetID}`);
 }
-
 
 }

@@ -30,6 +30,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'; // Import MatSlideToggleModule
 import { OperatorStationsComponent } from './operator-stations/operator-stations.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -46,7 +47,9 @@ import { OperatorStationsComponent } from './operator-stations/operator-stations
     EditUserComponent,
     ConfirmationDialogComponent,
     NotificationDialogComponent,
-    OperatorStationsComponent
+    OperatorStationsComponent,
+    ProfileComponent,
+   
 
   ],
   imports: [

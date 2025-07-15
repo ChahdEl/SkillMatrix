@@ -2,19 +2,12 @@ import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { UIService } from 'src/app/_utility-services/ui.service';
 import { ApiService } from 'src/app/api.service';
 import { MatDialog } from '@angular/material/dialog';
-import { UserProfile } from 'src/app/interfaces';
+import { LeaderProfile, UserProfile } from 'src/app/interfaces';
 import { firstValueFrom, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { NotificationDialogComponent } from '../notification-dialog/notification-dialog.component';
 
-interface LeaderProfile {
-  Name: string;
-  Project: string;
-  NetID: string;
-  description: string;
-  TeamMembers: UserProfile[];
-}
 
 @Component({
   selector: 'app-leader-profile',
@@ -137,6 +130,7 @@ export class LeaderProfileComponent implements OnInit, OnChanges {
       }
     });
   }
+ 
 
   async deleteOperator(matricule: number): Promise<void> {
     try {

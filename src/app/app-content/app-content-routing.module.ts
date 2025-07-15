@@ -10,6 +10,7 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { LevelAccessGuard } from '../level-access.guard';
 import { OperatorStationsComponent } from './operator-stations/operator-stations.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,12 @@ const routes: Routes = [
         path: 'leader-profile',
         pathMatch: 'full',
         component: LeaderProfileComponent,
+        
+      },
+      {
+        path: 'profile',
+        pathMatch: 'full',
+        component: ProfileComponent,
         
       },
       {

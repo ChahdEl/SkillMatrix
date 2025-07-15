@@ -1,0 +1,106 @@
+  <div class="profile-container">
+    <div class="profile-container" style="margin-top: 1%;margin-bottom: 5%;margin-left: 2%; border-color: black;box-shadow: 10px;width: 100%;">
+    <div style="text-align: center;margin-left: 3%;margin-right: 3%;">
+  <table style="width: 100%;">
+  <tr>
+  <td style="margin-right: 20%;">
+    <div>
+      <img src="./assets/leader.png" style="height: 150px;width: 150px;"> 
+      </div>
+        <span style="font-size: 42px;font-weight: 400;">{{ leader.Name }} </span><span>[Team Leader]</span>
+  </td>
+  <td>
+    <tr>
+    <h4>Leader details</h4>  
+      <table >
+        
+        <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">PROJECT</td>    <td style="font-weight:100;font-size: small;">{{ leader.Project }}</td></tr>
+        <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">TEAM SIZE</td>  <td style="font-weight:100;font-size: small;">{{ leader.TeamMembers.length }}</td></tr>
+        <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">DESCIPTION</td> <td style="font-weight:100;font-size: small;">{{ leader.description }}</td></tr>
+      </table>
+  
+  </tr>
+  <tr>
+  
+  
+  </tr>
+  </td>
+  </tr>
+  </table>    
+  
+  </div>
+</div>
+  
+  <div class="scrollable-container">
+    <div class="level-grid-container">
+      <p>Control Panel</p>
+      <div class="button-container" style="margin: auto 70px; display: flex; justify-content: center; gap: 20px;">
+        <button class="button-27" style="color: white; background-color: black;" [routerLink]="['/application/profile-manager']">
+          <mat-icon>manage_accounts</mat-icon>
+          Profile Management
+        </button>
+        
+        <button class="button-27" style="color: white; background-color: green;" [routerLink]="['/application/create-user']">
+          <mat-icon>person_add</mat-icon>
+          Add Team Member
+        </button>
+        
+        <button class="button-27" style="color: white; background-color: black;" [routerLink]="['/application/operator-stations/0']">
+          <mat-icon>history</mat-icon>
+          Station History
+        </button>
+        
+        <button class="button-27" style="color: white; background-color: green;" [routerLink]="['/application/leader-profile']">
+          <mat-icon>group</mat-icon>
+          My Team
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <span class="spacer"><br></span>
+  
+  <div class="scrollable-container">
+    <div class="level-grid-container">
+      <div class="charts-grid">
+        <p>Dashboard</p>
+        <div class="chart-row" style="display: flex; margin-bottom: 20px;">
+          <div class="chart-container" style="flex: 1; min-width: 300px; margin: 10px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <canvas id="membersPerStationChart"></canvas>
+          </div>
+          <div class="chart-description" style="color: black; flex: 1; padding: 20px; display: grid; place-items: center;">
+            <div style="text-align: center;">
+              <h3>Team Members Distribution by Station</h3>
+              <p>This chart displays the number of team members assigned to each work station, helping visualize workload distribution across different stations.</p>
+            </div>
+          </div> 
+        </div>
+        
+        <div class="chart-row" style="display: flex; margin-bottom: 20px;">
+          
+          <div class="chart-description" style="color: black;flex: 1; padding: 20px;display: grid; place-items: center;">
+            <div style="text-align: center;">
+              <h3>Team Members by Experience Level</h3>
+            <p>This visualization breaks down your team members by their experience or skill level, showing the composition of your team's expertise.</p>
+         
+            </div>
+             </div>
+             <div class="chart-container" style="flex: 1; min-width: 300px; margin: 10px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+              <canvas id="membersPerLevelChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-row" style="display: flex;">
+          <div class="chart-container" style="flex: 1; min-width: 300px; margin: 10px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <canvas id="successRateChart"></canvas>
+          </div>
+          <div class="chart-description" style="flex: 1; padding: 20px; color: black; display: grid; place-items: center;">
+            <div style="text-align: center;">
+              <h3>Task Success Rates</h3>
+              <p>This performance metric shows the completion success rates for tasks or projects, highlighting areas of strength and opportunities for improvement.</p>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,5 +1,6 @@
 <div class="profile-container">
-  <p><span style="font-size: 42px; font-weight: 400;">
+  <p>
+    <span style="font-size: 42px; font-weight: 400;">
     <mat-icon style="font-size: 82px; height: 70px; width: 100px;">person</mat-icon>{{ operator.Name }}
   </span> 
     <span style="font-size: 28px; padding-left: 1%; font-weight: 500; color: #ffffff;">
@@ -20,24 +21,25 @@
     <div class="level-grid-container">
       <div *ngFor="let level of operator.completedLevels; let i = index" class="level-grid-item">
 
-        <!-- Check if the level is accessible based on current level -->
-        <ng-container *ngIf="level.ID <= operator.currentLevel; else locked">
+        <ng-container *ngIf="isLevelUnlocked(i); else locked">
           <!-- Accessible level -->
-          <a [routerLink]="['/application/level-details', { level: level.ID, mat: operator.Matricule, st: operator.StationName }]">
-            <h3 style="color: grey;">Level {{ level.ID }}</h3>
-            <h3>{{ level.title }}</h3>
+          <a
+          class="level-grid-item"
+          [routerLink]="['/application/level-details']"
+          [queryParams]="{ level: level.ID, mat: operator.Matricule, st: operator.StationName }"
+          
+        >            <h3 >Level {{ level.ID+1}}</h3>
+            
           </a>
         </ng-container>
 
         <!-- Locked level template -->
         <ng-template #locked>
           <div class="locked-level">
-            <h3 style="color: lightgray;">🔒 Level {{ level.ID }}</h3>
-            <h3 style="color: lightgray;">{{ level.title }}</h3>
+            <h3 style="color: lightgray;">🔒 Level {{ level.ID+1 }}</h3>
           </div>
         </ng-template>
 
-        <!-- Progress bar and score -->
         <div class="progress">
           <div class="progress-value" style="--loading-bar-width: {{ level.score }}%"></div>
         </div>
@@ -46,14 +48,12 @@
       </div>
     </div>
 
-    <!-- Navigation buttons -->
     <div style="width: 30%; margin-left: 35%; margin-right: 35%; margin-top: 5%;">
-      <button class="button-27" (click)="goBackToPrevPage()">Back</button>
       <a routerLink="/application/create-user">
-        <button class="button-27" style="height: 70px; margin-top: 2px;">Create New Operator</button>
+        <button class="button-27" style="background-color: green; height: 70px; margin-top: 2px;"> <mat-icon style="font-size: 20px; height: 15px; ">person_add</mat-icon> Create New Operator</button>
       </a>
       <a [routerLink]="['/application/operator-stations', operator.Matricule]">
-        <button class="button-27" style="height: 70px; margin-top: 2px;">Show All Operator Stations</button>
+        <button class="button-27" style="height: 70px; background-color: #ffffff; color: black;"> <mat-icon style="font-size: 20px; height: 15px;">menu</mat-icon>  Show All Operator Stations</button>
       </a>
     </div>
   </div>

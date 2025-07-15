@@ -37,6 +37,6 @@ export class LoginComponent {
   });
 
   loginUser(){
-    this.router.navigate(['application/leader-profile'])
+    this.router.navigate(['application/profile'])
   }
 }

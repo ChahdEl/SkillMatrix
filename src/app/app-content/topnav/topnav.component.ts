@@ -1,39 +1,4 @@
-/*
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { UIService } from 'src/app/_utility-services/ui.service';
-
-@Component({
-  selector: 'app-topnav',
-  templateUrl: './topnav.component.html',
-  styleUrls: ['./topnav.component.scss']
-})
-export class TopnavComponent implements OnInit {
-
-  componentName: string = '';
-  prevComponentName: string = '';
-  constructor(private uiService: UIService,
-              private router: Router) {
-    
-    
-  }
-  ngOnInit() {
-    this.getComponentName()
-  }
-  
-   async getComponentName() {
-    this.uiService.currentPageNameChanged.subscribe(x=> this.componentName = x)
-    
-  }
-
-  changeSidenavState(){
-    this.uiService.changeToolbarState();
-  }
-  logOut(){
-    this.router.navigate(['login'])
-  }
-}
-*/
+import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UIService } from '../../_utility-services/ui.service';
@@ -53,8 +18,9 @@ export class TopnavComponent implements OnInit {
     matricule: new FormControl('', Validators.required)
   });
   searchError='';
+  
 
-  constructor(private uiService: UIService, private router: Router,private formBuilder: FormBuilder) {}
+  constructor(private uiService: UIService, private router: Router,private formBuilder: FormBuilder,private location:Location) {}
 
   ngOnInit() {
     this.getComponentName();
@@ -75,7 +41,9 @@ export class TopnavComponent implements OnInit {
   logOut(){
     this.router.navigate(['login'])
   }
-
+  back(): void {
+    this.location.back();
+  }
   searchUser(): void {
     if (this.searchForm.valid) {
       //const matricule = this.searchForm.get('matricule').value;

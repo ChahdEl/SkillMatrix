@@ -37,3 +37,10 @@ export interface Level {
     questions:string[];
     answers:boolean[];
   } 
+  export interface LeaderProfile {
+    Name: string;
+    Project: string;
+    NetID: string;
+    description: string;
+    TeamMembers: UserProfile[];
+  }
