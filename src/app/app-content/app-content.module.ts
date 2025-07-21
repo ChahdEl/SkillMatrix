@@ -31,6 +31,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'; // Import MatSlideToggleModule
 import { OperatorStationsComponent } from './operator-stations/operator-stations.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CodeVerificationDialogComponent } from './code-verification-dialog/code-verification-dialog.component';
 
 
 
@@ -49,6 +50,7 @@ import { ProfileComponent } from './profile/profile.component';
     NotificationDialogComponent,
     OperatorStationsComponent,
     ProfileComponent,
+    CodeVerificationDialogComponent,
    
 
   ],

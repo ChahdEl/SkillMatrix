@@ -6,7 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/_auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -26,17 +28,18 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  constructor(private router: Router) {
-    
+  constructor(private router: Router, private authService: AuthService, private snackBar:MatSnackBar) {
     
   }
 
-  loginInfo = new FormGroup({
+  loginForm = new FormGroup({
     netId: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
-  loginUser(){
-    this.router.navigate(['application/profile'])
-  }
+loginUser(): void {
+       this.router.navigate(['/application/profile']);
+
+}
+
 }

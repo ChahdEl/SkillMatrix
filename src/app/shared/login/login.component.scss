@@ -7,7 +7,7 @@
 .card-login{
     padding: 0px 0px 20px 0px;
     .nexteer-logo{    
-        margin: 0px 0px 0px 0px;
+        margin: 0px;
         padding: 20px 20px 10px 20px; 
         border-radius: 30px; 
         background-color: #ffffff;
@@ -324,3 +324,27 @@
     margin: 40px auto;
     background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
   }
+
+  @media (max-width: 768px) {
+  .form-card {
+    margin: 20px;
+    max-width: 90%;
+  }
+
+  .login-background {
+    background-position: center center;
+  }
+
+  .button {
+    font-size: 14px;
+    min-height: 50px;
+  }
+
+  .form-element {
+    margin: 1.5rem 0;
+  }
+
+  .form-fieldset {
+    padding: 15px;
+  }
+}

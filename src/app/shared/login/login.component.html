@@ -1,7 +1,7 @@
 <div class="login-page">
     <div class="login-background d-flex flex-row justify-content-center align-items-center align-content-center">
         <mat-card class="card-login d-flex flex-row justify-content-center align-items-center align-content-center" style="border-radius: 30px;">
-            <form [formGroup]="loginInfo">
+            <form [formGroup]="loginForm">
                 <div class="d-flex flex-column">
                     <div class="nexteer-logo d-flex flex-column justify-content-center align-items-center ">
                         <div>
@@ -39,9 +39,6 @@
                     <label class="form-element-label" for="field-x98ezh-s6s2g8-vfrkgb-ngrhef-atfkop">Password</label>
                     <small class="form-element-hint">error message will be typed here</small>
                 </div>
-
-
-
 
                 <div class="d-flex flex-row justify-content-center" style="margin-left: 30%; margin-right: 30%;">
                     <button class="button" (click)="loginUser()"><span>LOG IN</span></button>

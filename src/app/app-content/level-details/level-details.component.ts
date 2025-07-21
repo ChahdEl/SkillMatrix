@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotificationDialogComponent } from '../notification-dialog/notification-dialog.component';
 import { firstValueFrom } from 'rxjs';
 import { levels } from 'src/app/fake-data/fake-levels';
+import { CodeVerificationDialogComponent } from '../code-verification-dialog/code-verification-dialog.component';
 
 @Component({
   selector: 'app-level-details',
@@ -16,10 +17,10 @@ import { levels } from 'src/app/fake-data/fake-levels';
 })
 export class LevelDetailsComponent implements OnInit {
   operator: UserProfile;
-  Matricule!: number;
-  lvl!: number;
-  selectedLvl!: Level;
-  isDataLoaded = false;  
+  Matricule: number;
+  lvl: number;
+  selectedLvl: Level;
+  isDataLoaded = false;  // New flag to control data loading
 
   constructor(
     private uiService: UIService,
@@ -29,7 +30,9 @@ export class LevelDetailsComponent implements OnInit {
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef  // Inject ChangeDetectorRef
   ) { 
-   
+    this.Matricule = Number(this.route.snapshot.paramMap.get('mat'));
+    this.lvl = Number(this.route.snapshot.paramMap.get('level'));
+    this.selectedLvl = levels[this.lvl];
     this.operator = {
       Name: "test",
       Project: "",
@@ -41,157 +44,114 @@ export class LevelDetailsComponent implements OnInit {
       currentLevel: 0
     };
   }
+
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.lvl = Number(params['level']);
-      this.Matricule = Number(params['mat']);
-      const station = params['st'];
-  
-      if (this.lvl >= 0 && this.lvl < levels.length) {
-        this.selectedLvl = levels[this.lvl];
-      }
-  
-      this.loadAllLevelsByOperator();
-    });
-  
+    this.loadAllLevelsByOperator();
     this.uiService.setCurrentPageName('Level details');
   }
-  
-  
 
-
- // Modifiez loadAllLevelsByOperator
- async loadAllLevelsByOperator() {
-  try {
-    const res = await firstValueFrom(this.apiService.GET_Operator_By_ID(this.Matricule));
-    const operatorData = Array.isArray(res) ? res[0] : res;
-    
-    this.operator = {
-      id: operatorData.id,
-      Matricule: operatorData.matricule,
-      TeamLeader: operatorData.teamLeader,
-      Name: operatorData.name,
-      StationName: operatorData.currentStation,
-      Project: operatorData.project,
-      completedLevels: [], // Initialiser vide d'abord
-      currentLevel: operatorData.currentLevel,
-    };
-
-    // Chargez les niveaux depuis l'API
-    const res2 = await firstValueFrom(this.apiService.GET_Levels_By_Operator(this.Matricule));
-
-    // Mappez les niveaux avec les données de fake-levels
-    this.operator.completedLevels = levels.map((level) => {
-      const levelFromApi = res2.find((item: any) => item.lvlid === parseInt(level.id));
-      
-      // Créez le tableau answers en fonction des questions du niveau
-      const answers = level.questions.map((_, i) => {
-        return levelFromApi ? !!levelFromApi[`anS${i + 1}`] : false;
-      });
-
-      return {
-        ID: parseInt(level.id),
-        title: `Level ${level.id}`,
-        description: level.description,
-        score: levelFromApi?.score || 0,
-        questionCount: level.questions.length,
-        answers: answers
-      };
-    });
-
-    console.log("Operator data loaded:", this.operator);
-    this.isDataLoaded = true;
-    this.cdr.detectChanges();
-
-  } catch (error) {
-    console.error('Error loading operator data:', error);
-    // Fallback avec fake data
-    this.operator.completedLevels = levels.map(level => ({
-      ID: parseInt(level.id),
-      title: `Level ${level.id}`,
-      description: level.description,
-      score: 0,
-      questionCount: level.questions.length,
-      answers: new Array(level.questions.length).fill(false)
-    }));
-    this.isDataLoaded = true;
-    this.cdr.detectChanges();
-  }
-}
-
-updateScore(index: number, event: any): void {
-  if (!this.operator.completedLevels[this.lvl]) {
-    return;
-  }
-
-  // Mise à jour de la réponse
-  this.operator.completedLevels[this.lvl].answers[index] = event.target.checked;
-
-  // Calcul du score
-  const totalChecked = this.operator.completedLevels[this.lvl].answers
-    .slice(0, this.selectedLvl.questions.length) // Prendre seulement le nombre de questions existantes
-    .filter(answer => answer).length;
-
-  this.operator.completedLevels[this.lvl].score = Math.ceil(
-    (totalChecked / this.selectedLvl.questions.length) * 100
-  );
-}
-  async saveLevelChanges(): Promise<void> {
+  async loadAllLevelsByOperator() {
     try {
-      // Vérification de sécurité
-      if (!this.operator.completedLevels[this.lvl]) {
-        console.error('No level data available for level', this.lvl);
-        return;
-      }
-      const levelData = this.operator.completedLevels[this.lvl];
-      const score = levelData.score;
-      const answers = levelData.answers;
-      // Créez l'objet à sauvegarder dans le format attendu par l'API
-      const saveData: any = {
-        lvlid: this.lvl,
-        score: score,
-        questionCount: this.selectedLvl.questions.length
+      const res = await firstValueFrom(this.apiService.GET_Operator_By_ID(this.Matricule));
+      const operatorData = Array.isArray(res) ? res[0] : res;
+      this.operator = {
+        id: operatorData.id,
+        Matricule: operatorData.matricule,
+        TeamLeader: operatorData.teamLeader,
+        Name: operatorData.name,
+        StationName: operatorData.currentStation,
+        Project: operatorData.project,
+        completedLevels: [],
+        currentLevel: operatorData.currentLevel,
       };
-      // Map des réponses vers anS1, anS2, etc.
-      answers.forEach((answer, index) => {
-        saveData[`anS${index + 1}`] = answer ? 1 : 0;
+
+      // Load levels and answers for the operator
+      const res2 = await firstValueFrom(this.apiService.GET_Levels_By_Operator(this.Matricule));
+      this.operator.completedLevels = res2.map((item: any) => {
+        const answers: boolean[] = [];
+        for (let i = 1; i <= 20; i++) {
+          answers.push(!!item[`anS${i}`]);
+        }
+        return {
+          ID: item.lvlid,
+          title: item.title,
+          description: item.description,
+          score: item.score,
+          questionCount: item.questionCount,
+          answers: answers
+        };
       });
-      // Enregistrement
-      await firstValueFrom(
-        this.apiService.updateLevelScoreAndAnswers(
-          this.Matricule, 
-          this.lvl, 
-          score, 
-          this.operator.StationName, 
-          saveData // Envoyez l'objet formaté
-        )
-      );
-      // Gestion du déblocage du niveau suivant
-      if (score > 85 && this.operator.currentLevel === this.lvl) {
-        const newLevel = this.operator.currentLevel + 1;
-        await firstValueFrom(this.apiService.updateOperatorLevel(this.Matricule, newLevel));
-        this.operator.currentLevel = newLevel;
-        
-        this.dialog.open(NotificationDialogComponent, {
-          data: { message: `
+
+      console.log("Operator data and levels loaded:", this.operator);
+
+      // Set data loaded flag to true
+      this.isDataLoaded = true;
+      
+      // Manually trigger change detection if needed
+      this.cdr.detectChanges();
+
+    } catch (error) {
+      console.error('Error loading operator data:', error);
+    }
+  }
+
+  updateScore(index: number, event: any): void {
+    this.operator.completedLevels[this.lvl].answers[index] = event.target.checked;
+    const totalChecked = this.operator.completedLevels[this.lvl].answers.filter(answer => answer).length;
+    this.operator.completedLevels[this.lvl].score = Math.ceil((totalChecked / this.selectedLvl.questions.length) * 100);
+    console.log('Updated answers for this level:', this.operator.completedLevels[this.lvl].answers);
+  }
+
+ // Ajoutez cette méthode à la classe LevelDetailsComponent
+// Ajoutez cette méthode
+private async verifyCodeAndUnlockLevel4(): Promise<boolean> {
+  const dialogRef = this.dialog.open(CodeVerificationDialogComponent);
+  
+  return await firstValueFrom(dialogRef.afterClosed()).then(result => {
+    return result === true;
+  });
+}
+
+// Modifiez saveLevelChanges
+async saveLevelChanges(): Promise<void> {
+  const levelData = this.operator.completedLevels[this.lvl];
+  const score = levelData.score;
+  const answers = levelData.answers;
+
+  await firstValueFrom(this.apiService.updateLevelScoreAndAnswers(
+    this.Matricule, this.lvl, score, this.operator.StationName, answers));
+
+  if (score > 85 && this.operator.currentLevel == this.lvl) {
+    let canUnlockNextLevel = true;
+    
+    // Vérification spéciale pour le niveau 3
+    if (this.lvl === 3) {
+      canUnlockNextLevel = await this.verifyCodeAndUnlockLevel4();
+    }
+
+    if (canUnlockNextLevel) {
+      const newLevel = this.operator.currentLevel + 1;
+      await firstValueFrom(this.apiService.updateOperatorLevel(this.Matricule, newLevel));
+      this.operator.currentLevel = newLevel;
+
+      this.dialog.open(NotificationDialogComponent, {
+        data: { message: `
             <div style="text-shadow: 10px;text-align: center;font-size: larger;font-weight: 600;">
               Congratulations! You've unlocked level ${newLevel}
             </div>
             <div class="gif" style="margin-left: 80px;">
               <img src="assets/LevelUp.gif" alt="Level Up" style="width: 250px; height: 250px;margin-left: 20%;">
             </div>
-          `}
-        });
-      } else {
-        this.dialog.open(NotificationDialogComponent, {
-          data: { message: `Level score updated to ${score}%` }
-        });
-      }
-    } catch (error) {
-      console.error('Error saving level changes:', error);
-      this.dialog.open(NotificationDialogComponent, {
-        data: { message: 'Failed to save changes. Please try again.' }
+          ` }
       });
     }
-  } 
+  } else {
+    this.dialog.open(NotificationDialogComponent, {
+      data: { message: `Level score updated to ${score}%` }
+    });
+  }
+}
+  goBackToPrevPage(): void {
+    this.location.back();
+  }
 }

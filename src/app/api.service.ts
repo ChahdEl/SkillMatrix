@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { UserProfile } from './interfaces';
 
 @Injectable({
@@ -123,7 +123,7 @@ updateLevelScoreAndAnswers(matricule: number, level: number, score: number,Curre
   
   // Create a JSON object matching the expected DTO structure on the server
   const body = {
-      matricule,  // integer
+      matricule, 
       level,      // integer
       score,      // integer
       CurrentStation,
@@ -163,5 +163,18 @@ deleteOperatorByMatricule(matricule: number): Observable<any> {
 GET_Disabled_Operators_By_TLNZ(NetID: string): Observable<any> {
   return this.http.get<any>(`${this.APIURL}GET_Disabled_Operators_By_TLNZ?NetID=${NetID}`);
 }
+
+verifyTechnicianNetID(code: string): Observable<boolean> {
+  const url = `${this.APIURL}verify`;
+  const params = new HttpParams().set('code', code);
+  
+  return this.http.get<boolean>(url, { params }).pipe(
+    catchError(error => {
+      console.error('Verification failed:', error);
+      return of(false);
+    })
+  );
+}
+
 
 }

@@ -134,3 +134,46 @@ a:hover {
   0% { width: 0; }
   100% { width: var(--loading-bar-width); }
 }
+/* progress.component.scss */
+.progress {
+  &-value {
+    transition: width 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+    
+    &.progress-animate {
+      animation: progress-pulse 0.5s ease 2;
+    }
+  }
+}
+
+@keyframes progress-pulse {
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(1.2); }
+  100% { transform: scaleY(1); }
+}
+
+.unlocking {
+  animation: unlock-fade 2s ease;
+  border-left: 4px solid gold;
+}
+
+@keyframes unlock-fade {
+  0% { opacity: 0.5; background-color: rgba(255, 215, 0, 0.1); }
+  100% { opacity: 1; background-color: transparent; }
+}
+
+.unlock-message {
+  text-align: center;
+  padding: 20px;
+  
+  h2 {
+    color: #d80101;
+    margin-bottom: 20px;
+  }
+}
+
+.unlock-gif {
+  width: 200px;
+  height: 200px;
+  display: block;
+  margin: 0 auto;
+}

@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Verification</h2>
+<mat-dialog-content>
+  <p>To unlock Level 4, please enter nz-technician code:</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Code</mat-label>
+    <input matInput [(ngModel)]="enteredCode" type="password">
+  </mat-form-field>
+  <p *ngIf="isInvalid" style="color: red;">The code you entered is incorrect. Please try again.</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Annuler</button>
+  <button mat-button color="primary" (click)="verifyCode()">Vérifier</button>
+</mat-dialog-actions>
