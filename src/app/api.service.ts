@@ -165,7 +165,7 @@ GET_Disabled_Operators_By_TLNZ(NetID: string): Observable<any> {
 }
 
 verifyTechnicianNetID(code: string): Observable<boolean> {
-  const url = `${this.APIURL}verify`;
+  const url = `${this.APIURL}Get_verify`;
   const params = new HttpParams().set('code', code);
   
   return this.http.get<boolean>(url, { params }).pipe(

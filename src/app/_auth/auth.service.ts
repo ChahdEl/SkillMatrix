@@ -1,66 +1,79 @@
 import { Injectable } from '@angular/core';
-import { CacheService } from './cache.service';
-import jwt_decode from 'jwt-decode';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+interface LoginResponse {
+  token: string;
+  user: {
+    netId: string;
+    name: string;
+    role: string;
+  };
+}
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService extends CacheService {
-  private apiUrl = 'https://votre-api.com/auth';
-  private loggedIn = new BehaviorSubject<boolean>(false);
+export class AuthService {
+  private readonly API_URL = "http://localhost:5114/auth";
+  private isAuthenticated = new BehaviorSubject<boolean>(false);
 
-  constructor(private  http:HttpClient, private router:Router) {
-    super();
-   
-   }
-
-   getToken(): string {
-    return this.getItem('jwt') ?? '';
-  }
-  
-  protected setToken(jwt: string) {
-    this.setItem('jwt', jwt);
-  } 
-
-  protected clearToken() {
-    this.removeItem('jwt');
-  }
-  protected hasExpiredToken(): boolean {
-    const jwt = this.getToken();
-
-    if (jwt) {
-      const payload = jwt_decode(jwt) as any;
-      return Date.now() >= payload.exp * 1000;
-    }
-
-    return true;
-  }
-  login(netId: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { netId, password });
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {
+    this.checkAuthStatus();
   }
 
-  handleLoginResponse(response: any): void {
-    if (response.resultCode === 1) {
-      this.loggedIn.next(true);
-      localStorage.setItem('authToken', response.token);
-      this.router.navigate(['/application/profile']);
-    } else if (response.resultCode === -1) {
-      throw new Error('Invalid credentials');
-    } else if (response.resultCode === -2) {
-      throw new Error('Account locked - too many failed attempts');
-    }
+  private checkAuthStatus(): void {
+    const token = localStorage.getItem('authToken');
+    this.isAuthenticated.next(!!token);
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return this.loggedIn.asObservable();
+  login(netId: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.API_URL}/login`, { netId, password }).pipe(
+      tap({
+        next: (response) => {
+          localStorage.setItem('authToken', response.token);
+          this.isAuthenticated.next(true);
+          this.router.navigate(['/application/profile']);
+        },
+        error: (error) => {
+          this.snackBar.open(error.error?.message || 'Login failed', 'Close', {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
+        }
+      })
+    );
   }
 
   logout(): void {
     localStorage.removeItem('authToken');
-    this.loggedIn.next(false);
+    this.isAuthenticated.next(false);
     this.router.navigate(['/login']);
+  }
+
+  isLoggedIn(): Observable<boolean> {
+    return this.isAuthenticated.asObservable();
+  }
+
+  getCurrentUser(): { netId: string; name: string; role: string } | null {
+    const token = localStorage.getItem('authToken');
+    if (!token) return null;
+    
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return {
+        netId: payload.netId,
+        name: payload.name,
+        role: payload.role
+      };
+    } catch (e) {
+      return null;
+    }
   }
 }

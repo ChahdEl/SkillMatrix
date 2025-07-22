@@ -24,6 +24,11 @@ import { StringToNumberPipe } from './string-to-number.pipe';
 import { MatRadioModule } from '@angular/material/radio';
 import { NotificationDialogComponent } from './app-content/notification-dialog/notification-dialog.component';
 import { OperatorStationsComponent } from './app-content/operator-stations/operator-stations.component';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   declarations: [
@@ -36,6 +41,13 @@ import { OperatorStationsComponent } from './app-content/operator-stations/opera
     StringToNumberPipe
   ],
   imports: [
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:5114'], // Ajuste selon API
+        disallowedRoutes: []
+      }
+    }),
     CommonModule,
     BrowserModule,
     AppRoutingModule,
