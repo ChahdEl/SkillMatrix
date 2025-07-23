@@ -18,7 +18,7 @@ export class LeaderProfileComponent implements OnInit, OnChanges {
   InputedStationID = "";
   InputedName = "";
   leader: LeaderProfile;
-  showDisabledOperators = false;  // New toggle state to show disabled operators
+  showDisabledOperators = false;  
   stationSearch$ = new Subject<string>();  
   nameSearch$ = new Subject<string>();     
 
@@ -27,15 +27,14 @@ export class LeaderProfileComponent implements OnInit, OnChanges {
     private apiService: ApiService,
     private dialog: MatDialog
   ) {
-    this.leader = {
-      Name: 'LARBI AFIF',
-      Project: 'EPS',
-      NetID: 'NZ0002',
-      description: 'Description of this user and notes.',
+   this.leader = {
+      Name: '',
+      Project: '',
+      NetID: '',
+      description: '',
       TeamMembers: []
     };
 
-    // Debounced search setup
     this.stationSearch$.pipe(debounceTime(300)).subscribe(value => {
       this.InputedStationID = value.toUpperCase();
     });
@@ -44,10 +43,24 @@ export class LeaderProfileComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnInit() {
-    this.uiService.setCurrentPageName('Leader Profile');
-    this.loadAllLevelsByOperator();
+ ngOnInit() {
+  this.uiService.setCurrentPageName('Leader Profile');
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  if (!user || !user.NetID) {
+    console.error('Utilisateur non authentifié ou NetID manquant');
+    return;
   }
+
+  this.leader.Name = user.Name || 'Team Leader';
+  this.leader.Project = user.Project || '';
+  this.leader.NetID = user.NetID;
+  this.leader.description = 'Vos informations personnelles ici...';
+
+  this.loadAllLevelsByOperator();  
+}
+
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(this.InputedStationID, this.InputedName);
@@ -70,8 +83,6 @@ export class LeaderProfileComponent implements OnInit, OnChanges {
     const input = event.target as HTMLInputElement;
     this.updateNameSearch(input.value);
   }
-
-  // Load team members based on toggle state
   async loadAllLevelsByOperator() {
     try {
       const teamMembers = this.showDisabledOperators
@@ -103,19 +114,16 @@ export class LeaderProfileComponent implements OnInit, OnChanges {
     }
   }
 
-  // Toggle between active and inactive operators
   toggleDisabledOperators() {
     this.showDisabledOperators = !this.showDisabledOperators;
     const message = this.showDisabledOperators
       ? 'Displaying disabled operators.'
       : 'Displaying active operators.';
 
-    // Show a notification dialog each time the toggle is switched
     this.dialog.open(NotificationDialogComponent, {
       data: { message }
     });
 
-    // Reload operators based on the new toggle state
     this.loadAllLevelsByOperator();
   }
 

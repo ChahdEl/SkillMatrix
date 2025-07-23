@@ -121,7 +121,6 @@ checkLevelsByOperatorAndStation(matricule: number, station: string): Observable<
 updateLevelScoreAndAnswers(matricule: number, level: number, score: number,CurrentStation: string, answers: boolean[]): Observable<any> {
   const url = `${this.APIURL}Update_Level_Score_And_Answers`;
   
-  // Create a JSON object matching the expected DTO structure on the server
   const body = {
       matricule, 
       level,      // integer

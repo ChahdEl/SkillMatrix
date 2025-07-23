@@ -25,13 +25,13 @@ export class ProfileComponent implements OnInit, OnChanges {
   ) {
     Chart.register(...registerables);
 
-    this.leader = {
-      Name: 'LARBI AFIF',
-      Project: 'EPS',
-      NetID: 'NZ0002',
-      description: 'Description of this user and notes.',
-      TeamMembers: []
-    };
+   this.leader = {
+  Name: '',
+  Project: '',
+  NetID: '',
+  description: '',
+  TeamMembers: []
+};
   }
 
   ngOnInit() {
@@ -44,71 +44,53 @@ export class ProfileComponent implements OnInit, OnChanges {
   }
 
   async loadAllLevelsByOperator() {
-    try {
-      this.leader.TeamMembers = [
-        {
-          id: 1,
-          Matricule: 1001,
-          Name: 'Amine',
-          StationName: 'Station A',
-          Project: 'EPS',
-          currentLevel: 3,
-          completedLevels: [
-            { ID: 1, title: 'Introduction', description: 'Basic training', score: 8, questionCount: 10, answers: [] },
-            { ID: 2, title: 'Fundamentals', description: 'Core concepts', score: 3, questionCount: 10, answers: [] },
-            { ID: 3, title: 'Advanced', description: 'Specialized skills', score: 6, questionCount: 10, answers: [] }
-          ],
-          TeamLeader: ''
-        },
-        {
-          id: 2,
-          Matricule: 1002,
-          Name: 'Sara',
-          StationName: 'Station B',
-          Project: 'EPS',
-          currentLevel: 2,
-          completedLevels: [
-            { ID: 1, title: 'Introduction', description: 'Basic training', score: 1, questionCount: 10, answers: [] },
-            { ID: 2, title: 'Fundamentals', description: 'Core concepts', score: 7, questionCount: 10, answers: [] }
-          ],
-          TeamLeader: ''
-        },
-        {
-          id: 3,
-          Matricule: 1003,
-          Name: 'Yassine',
-          StationName: 'Station A',
-          Project: 'EPS',
-          currentLevel: 1,
-          completedLevels: [
-            { ID: 1, title: 'Introduction', description: 'Basic training', score: 5, questionCount: 10, answers: [] }
-          ],
-          TeamLeader: ''
-        }
-      ];
+  try {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-      const useMockData = true; 
-
-      if (!useMockData) {
-        for (const member of this.leader.TeamMembers) {
-          const res = await firstValueFrom(this.apiService.GET_Levels_By_Operator(member.Matricule));
-          member.completedLevels = res.map((item: any) => ({
-            ID: item.lvlid,
-            title: item.title,
-            description: item.description,
-            score: item.score,
-            questionCount: item.questionCount,
-            answers: []
-          }));
-        }
-      }
-      
-      this.initCharts();
-
-    } catch (error) {
-      console.error('Error loading team members:', error);
+    if (!user || !user.NetID) {
+      console.error('Utilisateur non connecté ou NetID manquant');
+      return;
     }
+
+    // Injecter les infos du leader connecté
+    this.leader.NetID = user.NetID;
+    this.leader.Name = user.Name || 'Team Leader';
+    this.leader.Project = user.Project || '';
+    this.leader.description = 'Résumé ou informations personnelles...';
+
+    // Appeler l'API selon le NetID
+    const teamMembers = await firstValueFrom(this.apiService.GET_Operators_By_TLNZ(this.leader.NetID));
+
+    this.leader.TeamMembers = teamMembers.map((item: any) => ({
+      id: item.id,
+      currentLevel: item.currentLevel,
+      Matricule: item.matricule,
+      Name: item.name,
+      StationName: item.currentStation,
+      Project: item.project,
+      completedLevels: [],
+      TeamLeader: item.teamLeader
+    }));
+
+    for (const member of this.leader.TeamMembers) {
+      const res = await firstValueFrom(this.apiService.GET_Levels_By_Operator(member.Matricule));
+      member.completedLevels = res.map((item: any) => ({
+        ID: item.lvlid,
+        title: item.title,
+        description: item.description,
+        score: item.score,
+        questionCount: item.questionCount,
+        answers: []
+      }));
+    }
+
+    this.initCharts();
+
+  } catch (error) {
+    console.error('Erreur lors du chargement des opérateurs:', error);
   }
+}
+
 
   initCharts() {
     if (this.membersPerStationChart) this.membersPerStationChart.destroy();

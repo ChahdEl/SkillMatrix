@@ -13,9 +13,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatButtonModule, 
-    MatCardModule, 
+    CommonModule,
+    MatButtonModule,
+    MatCardModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     FormsModule,
@@ -41,29 +41,40 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   loginUser(): void {
     if (this.loginInfo.invalid) return;
 
     // Construire le corps de la requête tel que le backend l'attend
-        const body = {
-          NetID: this.loginInfo.value.netId,
-          mdp: this.loginInfo.value.password
-        };
+    const body = {
+      NetID: this.loginInfo.value.netId,
+      mdp: this.loginInfo.value.password
+    };
 
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
     // POST vers http://localhost:5114/LOGIN avec body JSON
-    this.http.post<{success: boolean, message: string, user?: any}>('http://localhost:5114/LOGIN', body, httpOptions)
+    this.http.post<{ success: boolean, message: string, user?: any }>('http://localhost:5114/LOGIN', body, httpOptions)
       .subscribe({
         next: (res) => {
           if (res.success) {
-            localStorage.setItem('user', JSON.stringify(res.user));
+                const rawUser = Array.isArray(res.user) ? res.user[0] : res.user;
 
-            this.router.navigate(['/application/profile']);
+                // ✅ Normaliser les champs avec des majuscules cohérentes
+                const normalizedUser = {
+                  NetID: rawUser.netID,
+                  Name: rawUser.name,
+                  Project: rawUser.project,
+                  Matricule: rawUser.matricule
+                };
+
+                localStorage.setItem('user', JSON.stringify(normalizedUser));
+
+                this.router.navigate(['/application/profile']);
+
           } else {
             // Authentification échouée
             this.errorMessage = res.message || 'NetID ou mot de passe invalide.';
