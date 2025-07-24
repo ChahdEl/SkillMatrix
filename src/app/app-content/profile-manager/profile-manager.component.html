@@ -1,5 +1,42 @@
-<div class="profile-container">
-  <h3 style="margin: 50px;text-align: center;">Edit you personal informations</h3>
+  <div class="profile-container">
+    <div class="profile-container" style="margin-top: 1%;margin-bottom: 5%;margin-left: 2%; border-color: black;box-shadow: 10px;width: 100%;">
+    <div style="text-align: center;margin-left: 3%;margin-right: 3%;">
+  <table style="width: 100%;">
+  <tr>
+  <td style="margin-right: 20%;">
+    <div>
+      <img src="./assets/leader.png" style="height: 150px;width: 150px;"> 
+      </div>
+        <span style="font-size: 42px;font-weight: 400;">{{ leader.Name }} </span><span>[Team Leader]</span>
+  </td>
+  <td>
+    <tr>
+    <h4>Leader details</h4>  
+     <table >
+        
+        <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">PROJECT</td>    <td style="font-weight:100;font-size: small;">{{ leader.Project }}</td></tr>
+       <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">ZONE</td> <td style="font-weight:100;font-size: small;">{{ leader.Zone }}</td></tr>
+        <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">SUPERVISOR</td> <td style="font-weight:100;font-size: small;">{{ leader.Supervisor }}</td></tr>
+        <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">TEAM SIZE</td>  <td style="font-weight:100;font-size: small;">{{ leader.TeamMembers.length }}</td></tr>
+        <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">DESCIPTION</td> <td style="font-weight:100;font-size: small;">{{ leader.description }}</td></tr>
+      </table>
+  
+  </tr>
+  <tr>
+  
+  
+  </tr>
+  </td>
+  </tr>
+  </table>    
+  
+  </div>
+</div>
+  
+  
+    <div class="level-grid-container">
+        
+  <h3 style="text-align: center;">Edit you personal informations</h3>
   <div class="level-grid">
 
     <form [formGroup]="myform!" (ngSubmit)="onSubmit()">
@@ -8,27 +45,30 @@
           
 
             <div class="grid-item input" style="margin-left: 25%;margin-right: 25%;width: 50%;">
-              <input class="input1" style="width: 100%" formControlName="stationName" type="text"
-                placeholder="Full name">
+              <input class="input1" style="width: 100%" formControlName="name" type="text"
+                placeholder="Full name" >
             </div>
             <div class="grid-item input" style="margin-left: 25%;margin-right: 25%;width: 50%;">
-              <input class="input1" style="width: 100%" formControlName="stationName" type="text"
-                placeholder="Station name">
+              <input class="input1" style="width: 100%" formControlName="project" type="text"
+                placeholder="Project" >
             </div>
             <div class="grid-item input" style="margin-left: 25%;margin-right: 25%;width: 50%;">
-              <input class="input1" style="width: 100%" formControlName="stationName" type="text"
-                placeholder="Station name">
+              <input class="input1" style="width: 100%" formControlName="zone" type="text"
+                placeholder="Zone">
             </div>
             <div class="grid-item input" style="margin-left: 25%;margin-right: 25%;width: 50%;">
-              <input class="input1" style="width: 100%" formControlName="stationName" type="text"
-                placeholder="Station name">
+              <input class="input1" style="width: 100%" formControlName="supervisor" type="text"
+                placeholder="Supervisor">
             </div>
             <div class="grid-item input" style="margin-left: 25%;margin-right: 25%;width: 50%;">
-              <button class="button-27" type="submit" style="width: 100%">Create User</button>
+              <button class="button-27" type="submit" style="font-size:20px; width: 100%">Update Profile</button>
             </div>
 
         </div>
       </div>
     </form>
    </div> 
-</div> 
+
+    
+   
+  

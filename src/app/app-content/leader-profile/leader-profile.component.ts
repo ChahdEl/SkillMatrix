@@ -28,10 +28,13 @@ export class LeaderProfileComponent implements OnInit, OnChanges {
     private dialog: MatDialog
   ) {
    this.leader = {
+      Matricule:0,
       Name: '',
       Project: '',
+      Zone:'',
       NetID: '',
       description: '',
+      Supervisor:'',
       TeamMembers: []
     };
 
@@ -55,7 +58,9 @@ export class LeaderProfileComponent implements OnInit, OnChanges {
 
   this.leader.Name = user.Name || 'Team Leader';
   this.leader.Project = user.Project || '';
+  this.leader.Zone = user.Zone || '';
   this.leader.NetID = user.NetID;
+  this.leader.Supervisor=user.Supervisor;
   this.leader.description = 'Vos informations personnelles ici...';
 
   this.loadAllLevelsByOperator();  

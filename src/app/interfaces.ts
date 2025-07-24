@@ -16,6 +16,7 @@ export interface LevelScore {
     Project: string;
     currentLevel: number;
     completedLevels: LevelScore[];
+    
   }
 
 export interface Question {
@@ -41,6 +42,9 @@ export interface Level {
     Name: string;
     Project: string;
     NetID: string;
+    Matricule: number;
+    Zone:string;
+    Supervisor:string;
     description: string;
     TeamMembers: UserProfile[];
   }

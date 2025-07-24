@@ -15,6 +15,8 @@
       <table >
         
         <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">PROJECT</td>    <td style="font-weight:100;font-size: small;">{{ leader.Project }}</td></tr>
+       <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">ZONE</td> <td style="font-weight:100;font-size: small;">{{ leader.Zone }}</td></tr>
+        <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">SUPERVISOR</td> <td style="font-weight:100;font-size: small;">{{ leader.Supervisor }}</td></tr>
         <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">TEAM SIZE</td>  <td style="font-weight:100;font-size: small;">{{ leader.TeamMembers.length }}</td></tr>
         <tr><td style="width: 150px;height: 30px;font-weight: 300;font-size: small;">DESCIPTION</td> <td style="font-weight:100;font-size: small;">{{ leader.description }}</td></tr>
       </table>
@@ -29,7 +31,7 @@
   </table>    
   
   </div>
-</div>
+    </div>
   
   <div class="scrollable-container">
     <div class="level-grid-container">
@@ -45,12 +47,7 @@
           Add Team Member
         </button>
         
-        <button class="button-27" style="color: white; background-color: black;" [routerLink]="['/application/operator-stations/0']">
-          <mat-icon>history</mat-icon>
-          Station History
-        </button>
-        
-        <button class="button-27" style="color: white; background-color: green;" [routerLink]="['/application/leader-profile']">
+        <button class="button-27" style="color: white; background-color: black;" [routerLink]="['/application/leader-profile']">
           <mat-icon>group</mat-icon>
           My Team
         </button>

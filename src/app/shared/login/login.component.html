@@ -32,12 +32,22 @@
                     <input id="field-omv6eo-metm0n-5j55wv-w3wbws-6nm2b9" class="form-element-field" placeholder="Please fill in your full name" type="input" required matInput formControlName="netId"/>
                     <div class="form-element-bar"></div>
                     <label class="form-element-label" for="field-omv6eo-metm0n-5j55wv-w3wbws-6nm2b9">NetID</label>
+                    <small *ngIf="loginInfo.get('netId')?.errors?.['required'] && loginInfo.get('netId')?.touched" 
+                    class="form-element-hint error-message">
+                    NetID est requis
+                    </small>
                 </div>
                 <div class="form-element form-input" style="margin: 10% 20% 20% 20%;" >
                     <input id="field-x98ezh-s6s2g8-vfrkgb-ngrhef-atfkop" class="form-element-field" placeholder="Please enter your session's password" type="password" required matInput formControlName="password"/>
                     <div class="form-element-bar"></div>
                     <label class="form-element-label" for="field-x98ezh-s6s2g8-vfrkgb-ngrhef-atfkop">Password</label>
-                    <small class="form-element-hint">error message will be typed here</small>
+                     <small *ngIf="loginInfo.get('password')?.errors?.['required'] && loginInfo.get('password')?.touched" 
+                        class="form-element-hint error-message">
+                        Mot de passe est requis
+                    </small>
+                     <small *ngIf="errorMessage" class="form-element-hint error-message">
+                        {{ errorMessage }}
+                    </small>
                 </div>
 
 

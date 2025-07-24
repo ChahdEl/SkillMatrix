@@ -348,3 +348,16 @@
     padding: 15px;
   }
 }
+.error-message {
+    color: #f44336; /* Couleur rouge Material */
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.form-element-hint {
+    &.error-message {
+        color: #f44336;
+        font-weight: 500;
+    }
+}

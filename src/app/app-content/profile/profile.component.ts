@@ -29,7 +29,10 @@ export class ProfileComponent implements OnInit, OnChanges {
   Name: '',
   Project: '',
   NetID: '',
+  Zone:'',
+  Matricule:0,
   description: '',
+  Supervisor:'',
   TeamMembers: []
 };
   }
@@ -52,13 +55,13 @@ export class ProfileComponent implements OnInit, OnChanges {
       return;
     }
 
-    // Injecter les infos du leader connecté
     this.leader.NetID = user.NetID;
     this.leader.Name = user.Name || 'Team Leader';
+    this.leader.Zone = user.Zone;
     this.leader.Project = user.Project || '';
-    this.leader.description = 'Résumé ou informations personnelles...';
+    this.leader.Supervisor = user.Supervisor;
+    this.leader.description = 'Description AND Notes';
 
-    // Appeler l'API selon le NetID
     const teamMembers = await firstValueFrom(this.apiService.GET_Operators_By_TLNZ(this.leader.NetID));
 
     this.leader.TeamMembers = teamMembers.map((item: any) => ({

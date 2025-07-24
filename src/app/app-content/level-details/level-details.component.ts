@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotificationDialogComponent } from '../notification-dialog/notification-dialog.component';
 import { firstValueFrom } from 'rxjs';
 import { levels } from 'src/app/fake-data/fake-levels';
-import { CodeVerificationDialogComponent } from '../code-verification-dialog/code-verification-dialog.component';
 
 @Component({
   selector: 'app-level-details',
@@ -29,7 +28,7 @@ export class LevelDetailsComponent implements OnInit {
     private apiService: ApiService,
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef  // Inject ChangeDetectorRef
-  ) { 
+  ) {
     this.Matricule = Number(this.route.snapshot.paramMap.get('mat'));
     this.lvl = Number(this.route.snapshot.paramMap.get('level'));
     this.selectedLvl = levels[this.lvl];
@@ -86,7 +85,7 @@ export class LevelDetailsComponent implements OnInit {
 
       // Set data loaded flag to true
       this.isDataLoaded = true;
-      
+
       // Manually trigger change detection if needed
       this.cdr.detectChanges();
 
@@ -99,59 +98,37 @@ export class LevelDetailsComponent implements OnInit {
     this.operator.completedLevels[this.lvl].answers[index] = event.target.checked;
     const totalChecked = this.operator.completedLevels[this.lvl].answers.filter(answer => answer).length;
     this.operator.completedLevels[this.lvl].score = Math.ceil((totalChecked / this.selectedLvl.questions.length) * 100);
-    console.log('Updated answers for this level:', this.operator.completedLevels[this.lvl].answers);
   }
 
- // Ajoutez cette méthode à la classe LevelDetailsComponent
-// Ajoutez cette méthode
-private async verifyCodeAndUnlockLevel4(): Promise<boolean> {
-  const dialogRef = this.dialog.open(CodeVerificationDialogComponent);
-  
-  return await firstValueFrom(dialogRef.afterClosed()).then(result => {
-    return result === true;
-  });
-}
 
-// Modifiez saveLevelChanges
-async saveLevelChanges(): Promise<void> {
-  const levelData = this.operator.completedLevels[this.lvl];
-  const score = levelData.score;
-  const answers = levelData.answers;
 
-  await firstValueFrom(this.apiService.updateLevelScoreAndAnswers(
-    this.Matricule, this.lvl, score, this.operator.StationName, answers));
+  // Modifiez saveLevelChanges
+  async saveLevelChanges(): Promise<void> {
+    (document.activeElement as HTMLElement)?.blur();
+    const levelData = this.operator.completedLevels[this.lvl];
+    const score = levelData.score;
+    const answers = levelData.answers;
 
-  if (score > 85 && this.operator.currentLevel == this.lvl) {
-    let canUnlockNextLevel = true;
-    
-    // Vérification spéciale pour le niveau 3
-    if (this.lvl === 3) {
-      canUnlockNextLevel = await this.verifyCodeAndUnlockLevel4();
-    }
+    await firstValueFrom(this.apiService.updateLevelScoreAndAnswers(
+      this.Matricule, this.lvl, score, this.operator.StationName, answers));
 
-    if (canUnlockNextLevel) {
-      const newLevel = this.operator.currentLevel + 1;
-      await firstValueFrom(this.apiService.updateOperatorLevel(this.Matricule, newLevel));
-      this.operator.currentLevel = newLevel;
+    if (score > 85 && this.operator.currentLevel == this.lvl) {
+      let canUnlockNextLevel = true;
 
+      if (canUnlockNextLevel) {
+        const newLevel = this.operator.currentLevel + 1;
+        await firstValueFrom(this.apiService.updateOperatorLevel(this.Matricule, newLevel));
+        this.operator.currentLevel = newLevel;
+
+      }
+    } else {
       this.dialog.open(NotificationDialogComponent, {
-        data: { message: `
-            <div style="text-shadow: 10px;text-align: center;font-size: larger;font-weight: 600;">
-              Congratulations! You've unlocked level ${newLevel}
-            </div>
-            <div class="gif" style="margin-left: 80px;">
-              <img src="assets/LevelUp.gif" alt="Level Up" style="width: 250px; height: 250px;margin-left: 20%;">
-            </div>
-          ` }
+        data: { message: `Level score updated to ${score}%` }
       });
     }
-  } else {
-    this.dialog.open(NotificationDialogComponent, {
-      data: { message: `Level score updated to ${score}%` }
-    });
   }
-}
   goBackToPrevPage(): void {
+    (document.activeElement as HTMLElement)?.blur();
     this.location.back();
   }
 }

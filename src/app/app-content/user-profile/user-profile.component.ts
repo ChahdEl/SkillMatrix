@@ -25,7 +25,6 @@ export class UserProfileComponent implements OnInit {
     private uiService: UIService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location,
     private apiService: ApiService,
     public dialog: MatDialog 
   ) {
@@ -45,11 +44,8 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(){
     this.uiService.setCurrentPageName('User profile');
     this.loadAllLevelsByOperator();
-    console.log("test : ",this.operator.Name);
   }
-  goBackToPrevPage(): void {
-    this.location.back();
-  }
+  
   redirectWithParam(lvl: string) {
     const url = this.router.serializeUrl(this.router.createUrlTree(['../application/level-details'], {
        queryParams: { 
@@ -63,6 +59,7 @@ export class UserProfileComponent implements OnInit {
 
 async loadAllLevelsByOperator() {
   try {
+    // Charger les données opérateur
     const res = await firstValueFrom(this.apiService.GET_Operator_By_ID(this.Matricule));
     const operatorData = Array.isArray(res) ? res[0] : res;
 
@@ -77,6 +74,7 @@ async loadAllLevelsByOperator() {
       currentLevel: operatorData.currentLevel,
     };
 
+    // Charger les niveaux complétés
     const res2 = await firstValueFrom(this.apiService.GET_Levels_By_Operator(this.Matricule));
     this.operator.completedLevels = res2.map((item: any) => {
       const answers: boolean[] = [];
@@ -93,27 +91,43 @@ async loadAllLevelsByOperator() {
       };
     });
 
+    // Stocker le score du niveau 3
     const level3 = this.operator.completedLevels.find(lvl => lvl.ID === 3);
     this.level3Score = level3 ? level3.score : 0;
 
-    if (this.level3Score >= 85 && this.operator.currentLevel === 3) {
-      const isCodeValid = await this.verifyCodeAndUnlockLevel4();
-      this.isLevel4Unlocked = isCodeValid;
-      
-      if (isCodeValid) {
-        const newLevel = 4;
-        await firstValueFrom(this.apiService.updateOperatorLevel(this.Matricule, newLevel));
-        this.operator.currentLevel = newLevel;
-      }
-    } else {
-      this.isLevel4Unlocked = this.operator.currentLevel >= 4;
-    }
+    // On ne déverrouille pas Level 4 ici
+    // La vérification se fera dans onLevelClick()
 
     console.log("Operator :", this.operator);
+    console.log("Level 3 Score :", this.level3Score);
 
   } catch (error) {
     console.error('Error loading operator data:', error);
   }
+}
+
+
+async onLevelClick(levelID: number): Promise<void> {
+ 
+  if (levelID === 4) {
+  
+    if (this.level3Score < 85) {
+      alert("You must score at least 85% on Level 3 to access Level 4.");
+      return;
+    }
+    const isCodeValid = await this.verifyCodeAndUnlockLevel4();
+    if (!isCodeValid) {
+      alert("Incorrect code. Access denied.");
+      return;
+    }
+  }
+
+  // Accès au test
+  this.router.navigate(['/application/level-details', {
+    level: levelID,
+    mat: this.operator.Matricule,
+    st: this.operator.StationName
+  }]);
 }
 
 private async verifyCodeAndUnlockLevel4(): Promise<boolean> {

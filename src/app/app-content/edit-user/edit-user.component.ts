@@ -114,12 +114,6 @@ export class EditUserComponent implements OnInit {
 
 
 
-
-
-
-
-
-
   // Method to update station name based on SV and OP inputs
   updateStationName() {
     const sv = this.form.get('svNumber')?.value?.toUpperCase() || '';

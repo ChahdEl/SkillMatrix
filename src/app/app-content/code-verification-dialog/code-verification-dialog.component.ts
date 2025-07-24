@@ -8,7 +8,8 @@ import { ApiService } from 'src/app/api.service';
   styleUrls: ['./code-verification-dialog.component.scss']
 })
 export class CodeVerificationDialogComponent {
-  enteredCode: string = '';
+  enteredNz: string = '';
+  enteredPwd!:string;
   isInvalid = false;
   isLoading = false;
 
@@ -19,16 +20,14 @@ export class CodeVerificationDialogComponent {
   ) {}
 
 verifyCode(): void {
-  if (!this.enteredCode || !this.enteredCode.startsWith('NZ')) {
-    console.log('Code does not start with NZ');
+  if (!this.enteredNz || !this.enteredNz.startsWith('NZ')) {
     this.isInvalid = true;
     return;
   }
 
   this.isLoading = true;
-  console.log('Verifying code:', this.enteredCode);
 
-  this.apiService.verifyTechnicianNetID(this.enteredCode).subscribe({
+  this.apiService.verifyTechnicianNetID(this.enteredNz, this.enteredPwd).subscribe({
     next: (isValid) => {
       console.log('Verification result:', isValid);
       this.isLoading = false;

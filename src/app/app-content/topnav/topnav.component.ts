@@ -39,6 +39,7 @@ export class TopnavComponent implements OnInit {
     this.uiService.changeToolbarState();
   }
   logOut(){
+    localStorage.clear();
     this.router.navigate(['login'])
   }
   back(): void {

@@ -1,58 +1,60 @@
 <div class="profile-container">
-  <p><span style="font-size: 42px; font-weight: 400;">
-    <mat-icon style="font-size: 82px; height: 70px; width: 100px;">person</mat-icon>{{ operator.Name }}
-  </span> 
-    <span style="font-size: 28px; padding-left: 1%; font-weight: 500; color: #ffffff;">
-      IN {{ operator.StationName }}
-    </span>
-    <span class="current-level">
-      <img src="./assets/level{{ operator.currentLevel }}.png" 
-           style="border: 2px solid white; border-radius: 7px; box-shadow: 0 0 20px rgb(255, 68, 68);">
-    </span>
-  </p>
-
-  <div class="description">
-    <p>{{ operator.Project }}</p>
-  </div>
-
-  <div class="level-grid">
-    <h4>Completed Levels</h4>
-    <div class="level-grid-container">
-      <div *ngFor="let level of operator.completedLevels; let i = index" class="level-grid-item">
-
-        <!-- Check if the level is accessible based on current level -->
-        <ng-container *ngIf="level.ID <= operator.currentLevel || (level.ID === 4 && level3Score >= 85 && isLevel4Unlocked) || 
-          (level.ID === 3 && level3Score > 85); else locked">          <!-- Accessible level -->
-          <a [routerLink]="['/application/level-details', { level: level.ID, mat: operator.Matricule, st: operator.StationName }]">
-            <h3 style="color: grey;">Level {{ level.ID }}</h3>
-            <h3>{{ level.title }}</h3>
-          </a>
-        </ng-container>
-
-        <!-- Locked level template -->
-        <ng-template #locked>
-          <div class="locked-level">
-            <h3 style="color: lightgray;">🔒 Level {{ level.ID }}</h3>
-            <h3 style="color: lightgray;">{{ level.title }}</h3>
-          </div>
-        </ng-template>
-
-        <!-- Progress bar and score -->
-        <div class="progress">
-          <div class="progress-value" style="--loading-bar-width: {{ level.score }}%"></div>
-        </div>
-        <p>Score: {{ level.score }} %</p>
-        <p>{{ level.description }}</p>
+  <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;padding-bottom: 8%;">
+    
+    <div style="display: flex; align-items: center; gap: 30px; margin: 2%;">
+           <img src="./assets/operator.png" style="height: 150px; width: 150px; background-color: #b6b5b5;  border-radius: 25px; padding-bottom: 4px;padding-top: 4px;">         
+      <div style="display: flex; flex-direction: column;">
+        <span style="font-size: 50px;font-weight: 500; color: #ffffff;padding-left: 20px;">
+          {{ operator.Name | uppercase }}
+        </span>
+        <span style="font-size: 30px; font-weight: 500; color: #ffffff;padding-left: 30px">
+          IN {{ operator.StationName }}
+        </span>
       </div>
     </div>
-
-     <div style="width: 30%; margin-left: 35%; margin-right: 35%; margin-top: 5%;">
-      <a routerLink="/application/create-user">
-        <button class="button-27" style="background-color: green; height: 70px; margin-top: 2px;"> <mat-icon style="font-size: 20px; height: 15px; ">person_add</mat-icon> Create New Operator</button>
-      </a>
-      <a [routerLink]="['/application/operator-stations', operator.Matricule]">
-        <button class="button-27" style="height: 70px; background-color: #ffffff; color: black;"> <mat-icon style="font-size: 20px; height: 15px;">menu</mat-icon>  Show All Operator Stations</button>
-      </a>
-    </div>
+    
+    
+    <img src="./assets/level{{ operator.currentLevel }}.png" 
+        style="border: 2px solid white; border-radius: 7px; box-shadow: 0 0 20px rgb(255, 68, 68); height: 80px;">
   </div>
+    <div class="level-grid">
+      <h4>Completed Levels</h4>
+      <div class="level-grid-container">
+        <div *ngFor="let level of operator.completedLevels; let i = index" class="level-grid-item">
+
+          <!-- Check if the level is accessible based on current level -->
+          <ng-container *ngIf="level.ID <= operator.currentLevel || (level.ID === 4 && level3Score >= 85); else locked">
+            <a (click)="onLevelClick(level.ID)" style="cursor: pointer;">
+
+              <h3 style="color: grey;">Level {{ level.ID }}</h3>
+              <h3>{{ level.title }}</h3>
+            </a>
+          </ng-container>
+
+          <!-- Locked level template -->
+          <ng-template #locked>
+            <div class="locked-level">
+              <h3 style="color: lightgray;">🔒 Level {{ level.ID }}</h3>
+              <h3 style="color: lightgray;">{{ level.title }}</h3>
+            </div>
+          </ng-template>
+
+          <!-- Progress bar and score -->
+          <div class="progress">
+            <div class="progress-value" style="--loading-bar-width: {{ level.score }}%"></div>
+          </div>
+          <p>Score: {{ level.score }} %</p>
+          <p>{{ level.description }}</p>
+        </div>
+      </div>
+
+      <div style="width: 30%; margin-left: 35%; margin-right: 35%; margin-top: 5%;">
+        <a routerLink="/application/create-user">
+          <button class="button-27" style="background-color: green; height: 70px; margin-top: 2px;"> <mat-icon style="font-size: 20px; height: 15px; ">person_add</mat-icon> Create New Operator</button>
+        </a>
+        <a [routerLink]="['/application/operator-stations', operator.Matricule]">
+          <button class="button-27" style="height: 70px; background-color: #ffffff; color: black;"> <mat-icon style="font-size: 20px; height: 15px;">menu</mat-icon>  Show All Operator Stations</button>
+        </a>
+      </div>
+    </div>
 </div>

@@ -9,13 +9,13 @@ import { UIService } from 'src/app/_utility-services/ui.service';
   styleUrls: ['./example.component.scss']
 })
 export class ExampleComponent implements OnInit {
-  title='my title';
+  
   constructor(
               private uiService: UIService) {
   }
 
   ngOnInit(){
-    this.uiService.setCurrentPageName('Example Component');
+    this.uiService.setCurrentPageName('GUIDE PAGE');
   }
 
 }
