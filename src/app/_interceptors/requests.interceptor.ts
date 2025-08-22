@@ -16,8 +16,6 @@ export class SpinnerInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.uiService.openSpinner();
-    //const jwt = this.authService.getToken();
-    //const authRequest = request.clone({ setHeaders: { authorization: `Bearer ${jwt}` }});
     return next.handle(request).pipe(
       catchError((err, caught) => {
         console.log(err);

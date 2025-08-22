@@ -1,7 +1,21 @@
+
+
 @use '@angular/material' as mat;
 @import "~bootstrap/dist/css/bootstrap.css";
 
 @include mat.core();
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 /* For use in src/lib/core/theming/_palette.scss */
 $nexteer_red: (
@@ -74,7 +88,6 @@ $accent-white: (
  
 $my-primary: mat.define-palette($nexteer_red, 900);
 $my-accent: mat.define-palette($accent-white, 50);
-// The "warn" palette is optional and defaults to red if not specified.
 $my-warn: mat.define-palette(mat.$red-palette);
 $my-theme: mat.define-light-theme((
  color: (
@@ -128,5 +141,3 @@ $my-theme: mat.define-light-theme((
 
 @include custom-mat-styles();
 @include mat.all-component-themes($my-theme);
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -183,11 +183,6 @@ ul {
   }
   
 
-
-
-
-
-/* CSS */
 .button-27 {
   appearance: none;
   background-color: #000000;
@@ -287,9 +282,8 @@ ul {
       margin-bottom: 30px;
     }
   
-   /*PROGRESS BAR FOR LEVELS*/
    :root {
-    --loading-bar-width: 68%; /* default value */
+    --loading-bar-width: 68%;
   }
   
    .progress {

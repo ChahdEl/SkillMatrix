@@ -11,11 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { PageInformationComponent } from '../shared/page-information/page-information.component';
-import { ExampleComponent } from './example/example.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { ProfileManagerComponent } from './profile-manager/profile-manager.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -28,10 +26,14 @@ import { MatRadioModule } from '@angular/material/radio';
 import { NotificationDialogComponent } from './notification-dialog/notification-dialog.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle'; // Import MatSlideToggleModule
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'; 
 import { OperatorStationsComponent } from './operator-stations/operator-stations.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CodeVerificationDialogComponent } from './code-verification-dialog/code-verification-dialog.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { DeleteMemberComponent } from './delete-member/delete-member.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { OperatorsComponent } from './operators/operators.component';
 
 
 
@@ -39,7 +41,6 @@ import { CodeVerificationDialogComponent } from './code-verification-dialog/code
   declarations: [
     AppContentComponent,
     SidenavComponent,
-    ExampleComponent,
     UserProfileComponent,
     TopnavComponent,
     LeaderProfileComponent,
@@ -51,8 +52,10 @@ import { CodeVerificationDialogComponent } from './code-verification-dialog/code
     OperatorStationsComponent,
     ProfileComponent,
     CodeVerificationDialogComponent,
-   
-
+    ArchiveComponent,
+    DeleteMemberComponent,
+    OperatorsComponent,
+  
   ],
   imports: [
     CommonModule,
@@ -72,7 +75,8 @@ import { CodeVerificationDialogComponent } from './code-verification-dialog/code
     MatDialogModule,
     FormsModule,
     MatRadioModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatCheckboxModule
   ]
 })
 export class AppContentModule { }

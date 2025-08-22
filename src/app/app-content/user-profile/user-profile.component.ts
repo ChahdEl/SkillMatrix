@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { UIService } from 'src/app/_utility-services/ui.service';
 import { UserProfile, Level } from 'src/app/interfaces';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common'
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
-import { MatDialog } from '@angular/material/dialog'; // Ajoutez cette importation
-import { CodeVerificationDialogComponent } from '../code-verification-dialog/code-verification-dialog.component'; // Ajoutez cette importation
+import { MatDialog } from '@angular/material/dialog'; 
+import { CodeVerificationDialogComponent } from '../code-verification-dialog/code-verification-dialog.component'; 
 
 @Component({
   selector: 'app-user-profile',
@@ -42,7 +41,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.uiService.setCurrentPageName('User profile');
+    this.uiService.setCurrentPageName('Operator profile');
     this.loadAllLevelsByOperator();
   }
   
@@ -59,7 +58,7 @@ export class UserProfileComponent implements OnInit {
 
 async loadAllLevelsByOperator() {
   try {
-    // Charger les données opérateur
+    
     const res = await firstValueFrom(this.apiService.GET_Operator_By_ID(this.Matricule));
     const operatorData = Array.isArray(res) ? res[0] : res;
 
@@ -74,7 +73,6 @@ async loadAllLevelsByOperator() {
       currentLevel: operatorData.currentLevel,
     };
 
-    // Charger les niveaux complétés
     const res2 = await firstValueFrom(this.apiService.GET_Levels_By_Operator(this.Matricule));
     this.operator.completedLevels = res2.map((item: any) => {
       const answers: boolean[] = [];
@@ -91,12 +89,9 @@ async loadAllLevelsByOperator() {
       };
     });
 
-    // Stocker le score du niveau 3
     const level3 = this.operator.completedLevels.find(lvl => lvl.ID === 3);
     this.level3Score = level3 ? level3.score : 0;
 
-    // On ne déverrouille pas Level 4 ici
-    // La vérification se fera dans onLevelClick()
 
     console.log("Operator :", this.operator);
     console.log("Level 3 Score :", this.level3Score);
@@ -108,21 +103,36 @@ async loadAllLevelsByOperator() {
 
 
 async onLevelClick(levelID: number): Promise<void> {
- 
-  if (levelID === 4) {
-  
-    if (this.level3Score < 85) {
-      alert("You must score at least 85% on Level 3 to access Level 4.");
+
+  if (levelID === 3) {
+    const level2 = this.operator.completedLevels.find(lvl => lvl.ID === 2);
+    const level2Score = level2 ? level2.score : 0;
+
+    if (level2Score < 85) {
+      alert("You must score at least 85% on Level 2 to access Level 3.");
       return;
     }
-    const isCodeValid = await this.verifyCodeAndUnlockLevel4();
+
+    const isCodeValid = await this.verifyCodeAndUnlock(levelID);
     if (!isCodeValid) {
       alert("Incorrect code. Access denied.");
       return;
     }
   }
 
-  // Accès au test
+  if (levelID === 4) {
+    if (this.level3Score < 85) {
+      alert("You must score at least 85% on Level 3 to access Level 4.");
+      return;
+    }
+
+    const isCodeValid = await this.verifyCodeAndUnlock(levelID);
+    if (!isCodeValid) {
+      alert("Incorrect code. Access denied.");
+      return;
+    }
+  }
+
   this.router.navigate(['/application/level-details', {
     level: levelID,
     mat: this.operator.Matricule,
@@ -130,11 +140,12 @@ async onLevelClick(levelID: number): Promise<void> {
   }]);
 }
 
-private async verifyCodeAndUnlockLevel4(): Promise<boolean> {
-  const dialogRef = this.dialog.open(CodeVerificationDialogComponent);
-  
-  return await firstValueFrom(dialogRef.afterClosed()).then(result => {
-    return result === true;
+private async verifyCodeAndUnlock(levelID:number): Promise<boolean> {
+  const dialogRef = this.dialog.open(CodeVerificationDialogComponent,{
+      data: { level: levelID}
+
   });
+  return await firstValueFrom(dialogRef.afterClosed()).then(result => result === true);
 }
+
 }

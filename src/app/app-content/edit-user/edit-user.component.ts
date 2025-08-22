@@ -64,7 +64,6 @@ export class EditUserComponent implements OnInit {
     try {
       const res = await firstValueFrom(this.apiService.GET_Operator_By_ID(this.userMatricule));
       const operatorData = Array.isArray(res) ? res[0] : res; 
-      // Assuming res is a single object, not an array
       this.operator = {
         id: operatorData.id,
         Matricule: operatorData.matricule,
@@ -72,8 +71,8 @@ export class EditUserComponent implements OnInit {
         Name: operatorData.name,
         StationName: operatorData.currentStation,
         Project: operatorData.project,
-        completedLevels: [],  // Initialize empty levels array
-        currentLevel: operatorData.currentLevel,      // Default value for currentLevel
+        completedLevels: [],  
+        currentLevel: operatorData.currentLevel,
       };
       this.initialStation = operatorData.currentStation;
 
@@ -89,10 +88,9 @@ export class EditUserComponent implements OnInit {
 
       const res2 = await firstValueFrom(this.apiService.GET_Levels_By_Operator(this.userMatricule));
       this.operator.completedLevels = res2.map((item: any) => {
-        // Extracting answers and mapping them to a boolean array
         const answers: boolean[] = [];
         for (let i = 1; i <= 20; i++) {
-          answers.push(!!item[`anS${i}`]);  // Convert to boolean using double negation
+          answers.push(!!item[`anS${i}`]); 
         }
         console.log(" ----- answers inserted:",answers);
         return {
@@ -101,11 +99,11 @@ export class EditUserComponent implements OnInit {
           description: item.description,
           score: item.score,
           questionCount:item.questionCount,
-          answers: answers  // Add the answers array
+          answers: answers 
         };
       });
   
-      console.log("Operator : ", this.operator,res); // Check levels loaded
+      console.log("Operator : ", this.operator,res); 
   
     } catch (error) {
       console.error('Error loading operator data:', error);
@@ -113,18 +111,14 @@ export class EditUserComponent implements OnInit {
   }
 
 
-
-  // Method to update station name based on SV and OP inputs
   updateStationName() {
     const sv = this.form.get('svNumber')?.value?.toUpperCase() || '';
     const op = this.form.get('opNumber')?.value?.toUpperCase() || '';
     this.form.get('stationName')?.setValue(`SV${sv}-OP${op}`);
   }
 
-  // Step 4: On form submission, update the operator and check station levels
   onSubmit(): void {
     if (this.form.valid && this.operator) {
-      // Update the UserProfile with form values
       const updatedUser: UserProfile = {
         ...this.operator,
         Name: this.form.get('name')?.value,
@@ -135,10 +129,9 @@ export class EditUserComponent implements OnInit {
         currentLevel: this.form.get('currentLevel')?.value
       };
 
-      // Call updateOperator to update the operator details
       this.apiService.updateOperator(updatedUser).subscribe({
         next: () => {
-          // After successful update, check if station levels exist
+       
           this.checkAndHandleStationLevels(updatedUser);
         },
         error: (error) => {
@@ -152,7 +145,6 @@ export class EditUserComponent implements OnInit {
   }
 
 
-  // Method to check for existing station levels and create if needed
   private checkAndHandleStationLevels(updatedUser: UserProfile) {
     const newStationName = updatedUser.StationName;
     
@@ -160,12 +152,10 @@ export class EditUserComponent implements OnInit {
       this.apiService.checkLevelsByOperatorAndStation(updatedUser.Matricule, newStationName).subscribe({
         next: (exists) => {
           if (exists) {
-            // If levels exist, notify that the operator has returned to an old station
             this.dialog.open(NotificationDialogComponent, {
               data: { message: 'Operator has returned to a station they previously worked on.' }
             });
           } else {
-            // If no levels exist, add new levels for the new station
             this.apiService.addNewOperatorLevels(updatedUser.Matricule, updatedUser.TeamLeader, newStationName).subscribe({
               next: () => {
                 this.dialog.open(NotificationDialogComponent, {
@@ -186,7 +176,6 @@ export class EditUserComponent implements OnInit {
         }
       });
     } else {
-      // If the station hasn’t changed, simply show a success dialog
       this.dialog.open(NotificationDialogComponent, {
         data: { message: 'Operator updated successfully.' }
       });

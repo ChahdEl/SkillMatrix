@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppContentComponent } from './app-content.component';
-import { ExampleComponent } from './example/example.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProfileManagerComponent } from './profile-manager/profile-manager.component';
 import { LeaderProfileComponent } from './leader-profile/leader-profile.component';
@@ -11,17 +10,15 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { LevelAccessGuard } from '../level-access.guard';
 import { OperatorStationsComponent } from './operator-stations/operator-stations.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { DeleteMemberComponent } from './delete-member/delete-member.component';
+import { OperatorsComponent } from './operators/operators.component';
 
 const routes: Routes = [
   {
     path: '', 
     component: AppContentComponent,
     children: [
-      {
-        path: 'example',
-        component: ExampleComponent,
-        
-      },
       {
         path: 'leader-profile',
         pathMatch: 'full',
@@ -71,6 +68,21 @@ const routes: Routes = [
         component: OperatorStationsComponent 
       
       },
+      {
+        path:'archive',
+        component:ArchiveComponent
+
+      },
+      {
+        path:'operator',
+        component:OperatorsComponent
+
+      },
+      {
+        path:'delete',
+        component:DeleteMemberComponent
+
+      }
 
   
     ]

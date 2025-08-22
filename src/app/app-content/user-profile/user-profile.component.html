@@ -22,7 +22,6 @@
       <div class="level-grid-container">
         <div *ngFor="let level of operator.completedLevels; let i = index" class="level-grid-item">
 
-          <!-- Check if the level is accessible based on current level -->
           <ng-container *ngIf="level.ID <= operator.currentLevel || (level.ID === 4 && level3Score >= 85); else locked">
             <a (click)="onLevelClick(level.ID)" style="cursor: pointer;">
 
@@ -31,7 +30,6 @@
             </a>
           </ng-container>
 
-          <!-- Locked level template -->
           <ng-template #locked>
             <div class="locked-level">
               <h3 style="color: lightgray;">🔒 Level {{ level.ID }}</h3>
@@ -39,7 +37,6 @@
             </div>
           </ng-template>
 
-          <!-- Progress bar and score -->
           <div class="progress">
             <div class="progress-value" style="--loading-bar-width: {{ level.score }}%"></div>
           </div>

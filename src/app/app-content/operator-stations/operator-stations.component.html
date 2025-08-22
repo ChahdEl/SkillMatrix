@@ -22,7 +22,6 @@
             <div> this will work only for levels that he actually passed and will remove levels that have scores of 0 .</div>
         
         </div>
-        <!-- Filter Inputs -->
         <div class="filter-container" style="margin-left: 31%;margin-right: 30%; width: 40%;">
 
             <input type="text" placeholder="Filter by Station" [(ngModel)]="stationFilter" (input)="applyFilters()">
@@ -30,7 +29,6 @@
             <input type="text" placeholder="Filter by Score" [(ngModel)]="scoreFilter" (input)="applyFilters()">
         </div>
 
-        <!-- Results Table -->
         <div class="scrollable-container">
         <table>
           <thead>
@@ -51,7 +49,6 @@
         </div>
     </div>
   
-    <!-- Navigation buttons -->
     <div style="width: 30%; margin-left: 35%; margin-right: 35%; margin-top: 5%;">
        
         <a routerLink="/application/create-user">

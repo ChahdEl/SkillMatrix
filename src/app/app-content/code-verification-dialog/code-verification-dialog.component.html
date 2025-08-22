@@ -1,24 +1,48 @@
 <h2 mat-dialog-title>Verification</h2>
-
 <mat-dialog-content>
-  <p>To pass Level 4, please enter nz-technician credentials:</p>
+  <p>To pass this Level, please enter NZ-technician credentials:</p>
 
   <mat-form-field appearance="fill" style="width: 80%;">
     <mat-label>NetID technician</mat-label>
-    <input matInput [(ngModel)]="enteredNz" type="text" autocomplete="off">
+    <input
+      matInput
+      [(ngModel)]="enteredNz"
+      [ngModelOptions]="{ standalone: true }"
+      type="text"
+      autocomplete="off"
+    />
   </mat-form-field>
 
   <mat-form-field appearance="fill" style="width: 80%;">
     <mat-label>Password</mat-label>
-    <input matInput [(ngModel)]="enteredPwd" type="password" autocomplete="off">
+    <input
+      matInput
+      [(ngModel)]="enteredPwd"
+      type="password"
+      autocomplete="off"
+    />
   </mat-form-field>
 
-  <p *ngIf="isInvalid" style="color: red;">
-    The code you entered is incorrect. Please try again.
+  <mat-checkbox *ngIf="data.level==4"
+    [(ngModel)]="supervisor"
+   
+  >
+    With the presence of the Supervisor
+  </mat-checkbox>
+
+  <p *ngIf="isInvalid" style="color: red; margin-top: 8px;">
+    {{ errorMsg || 'The code you entered is incorrect. Please try again.' }}
   </p>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button color="primary" (click)="verifyCode()">Verify</button>
+  <button
+    mat-button
+    color="primary"
+    (click)="verifyCode()"
+    [disabled]="!canSubmit() || isLoading"
+  >
+    Verify
+  </button>
 </mat-dialog-actions>

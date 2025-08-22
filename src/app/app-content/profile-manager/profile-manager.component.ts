@@ -6,7 +6,6 @@ import { ApiService } from 'src/app/api.service';
 import { LeaderProfile } from 'src/app/interfaces';
 import { NotificationDialogComponent } from '../notification-dialog/notification-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { HttpResponse } from '@angular/common/http';
 
 
 @Component({
@@ -117,7 +116,6 @@ export class ProfileManagerComponent implements OnInit {
 
           };
           console.log('Data to be sent:', updatedLeader);
-          // Call updateOperator to update the operator details
           this.apiService.updateLeader(updatedLeader).subscribe({
             next: () => {
               localStorage.setItem('user',JSON.stringify(updatedLeader))

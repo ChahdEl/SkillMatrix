@@ -51,6 +51,8 @@
           <mat-icon>group</mat-icon>
           My Team
         </button>
+              <button class="button-27" style="background-color: green;" [routerLink]="['/application/delete']"><mat-icon>delete</mat-icon>delete member</button>
+
       </div>
     </div>
   </div>
@@ -85,18 +87,6 @@
              <div class="chart-container" style="flex: 1; min-width: 300px; margin: 10px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
               <canvas id="membersPerLevelChart"></canvas>
             </div>
-        </div>
-        <div class="chart-row" style="display: flex;">
-          <div class="chart-container" style="flex: 1; min-width: 300px; margin: 10px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-            <canvas id="successRateChart"></canvas>
-          </div>
-          <div class="chart-description" style="flex: 1; padding: 20px; color: black; display: grid; place-items: center;">
-            <div style="text-align: center;">
-              <h3>Task Success Rates</h3>
-              <p>This performance metric shows the completion success rates for tasks or projects, highlighting areas of strength and opportunities for improvement.</p>
-            </div>
-           
-          </div>
         </div>
       </div>
     </div>

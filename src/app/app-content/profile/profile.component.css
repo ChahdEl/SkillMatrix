@@ -46,7 +46,6 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
    
-  /* Style pour les graphiques */
 .charts-container {
   margin-top: 30px;
 }
@@ -64,7 +63,6 @@ canvas {
   min-height: 300px;
   width: 100% !important;
 }
-  /* Ajoutez ceci à votre fichier CSS */
 
 .profile-container {
   display: block;
@@ -82,7 +80,6 @@ canvas {
   margin: 20px auto;
 }
 
-/* Style pour les cartes de graphiques */
 .charts-container > div {
   background: white;
   padding: 20px;
@@ -123,11 +120,11 @@ canvas {
   width: 90%;
   margin-left: 5%;
   margin-right: 5%;
-  overflow-y: auto;  /* Enables vertical scrolling */
-  padding: 10px;     /* Optional: adds padding inside the container */
-  border: 1px solid #ddd; /* Optional: adds a border around the scrollable container */
-  border-radius: 10px; /* Optional: adds rounded corners */
-  background-color: #f9f9f9; /* Optional: background color for contrast */
+  overflow-y: auto;  
+  padding: 10px;  
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9; 
   padding-bottom: 30px;
 }
 p{

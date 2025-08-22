@@ -57,7 +57,6 @@ export class UIService {
         duration: duration,
         horizontalPosition: horizontalPosition,
         verticalPosition: verticalPosition,
-        //Styles are defined in styles.scss
         panelClass: panelClassName
       }
     )

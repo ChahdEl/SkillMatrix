@@ -111,18 +111,8 @@ export class ProfileComponent implements OnInit, OnChanges {
       this.leader.TeamMembers.filter(m => m.currentLevel === lvl).length
     );
 
-    const avgSuccessPerLevel = levels.map(lvl => {
-      const relevantScores = this.leader.TeamMembers.flatMap(m => 
-        m.completedLevels.filter(l => l.ID === lvl)
-      );
-      return relevantScores.length > 0
-        ? (relevantScores.reduce((sum, l) => sum + (l.score / l.questionCount), 0) / relevantScores.length) * 100
-        : 0;
-    });
-
     this.createMembersPerStationChart(stations, membersPerStation);
     this.createMembersPerLevelChart(levels, membersPerLevel);
-    this.createSuccessRateChart(levels, avgSuccessPerLevel);
   }
 
   createMembersPerStationChart(stations: string[], counts: number[]) {
@@ -194,37 +184,5 @@ export class ProfileComponent implements OnInit, OnChanges {
       plugins: [ChartDataLabels]
     });
   }
-  
 
-  createSuccessRateChart(levels: number[], rates: number[]) {
-    const ctx = document.getElementById('successRateChart') as HTMLCanvasElement;
-    this.successRateChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: levels.map(l => `Level ${l}`),
-        datasets: [{
-          label: 'Success Rate (%)',
-          data: rates,
-          borderColor: 'green',
-          backgroundColor: 'rgba(11, 254, 52, 0.2)',
-          fill: true
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            min: 0,
-            max: 100
-          }
-        },
-        plugins: {
-          title: {
-            display: true,
-            text: 'Average Success Rate by Training Level'
-          }
-        }
-      }
-    });
-  }
 }

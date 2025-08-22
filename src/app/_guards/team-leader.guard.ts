@@ -6,7 +6,7 @@ export const teamLeaderGuard: CanActivateFn = (route, state) => {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
   if (user?.NetID) {
-    return true; // autorise l'accès
+    return true; 
   }
 
   router.navigate(['/login']);

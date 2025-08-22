@@ -34,7 +34,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     ProfileManagerComponent,
-    StringToNumberPipe
+    StringToNumberPipe,
     
   ],
   exports: [
@@ -44,7 +44,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ['localhost:5114'], // Ajuste selon API
+        allowedDomains: ['localhost:5114'], 
         disallowedRoutes: []
       }
     }),
@@ -54,7 +54,6 @@ export function tokenGetter() {
     AppContentModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    //for service
     MatSnackBarModule,
     NgxSpinnerModule,
     ReactiveFormsModule,

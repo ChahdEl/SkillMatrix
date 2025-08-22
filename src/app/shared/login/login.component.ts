@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['/application/profile']);
 
           } else if(res.message=='Invalid credentials or inactive account.') {
-            // Authentification échouée
+          
             this.errorMessage =  'NetID ou mot de passe invalide.';
           }else{
              this.errorMessage='';

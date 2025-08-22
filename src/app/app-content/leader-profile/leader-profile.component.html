@@ -45,6 +45,7 @@
       <div style="text-align: center; margin: 20px;">
         <mat-slide-toggle (change)="toggleDisabledOperators()" ><span style="color: white;">Show Disabled Operators</span></mat-slide-toggle>
       </div>
+  
     
     </h4>
     <div class="scrollable-container">
@@ -52,11 +53,12 @@
         <div *ngFor="let member of leader.TeamMembers">
           <div *ngIf="member.StationName.includes(InputedStationID) && member.Name.includes(InputedName)">
             <div class="level-grid-item">
-              <a routerLink="/application/user-profile/{{ member.Matricule }}">
+              <a routerLink="/application/user-profile/{{ member.Matricule }}" style="padding-bottom: 0%;">
                 <span style="font-size: 42px; font-weight: 400; margin-left: 10px;">
                   {{ member.Name }}
                 </span>
-                <span style="font-weight: 600;"> IN {{ member.StationName }}</span>
+                <span style="font-weight: 600;"> IN {{ member.StationName }} ||</span>
+                <span> Matricule: {{member.Matricule}}</span>
               </a>
               <img src="./assets/level{{ member.currentLevel }}.png" style="border: 2px solid white; border-radius: 7px; height: 40px; margin-bottom: 1.5%; margin-left: 1%; float: right;">
               

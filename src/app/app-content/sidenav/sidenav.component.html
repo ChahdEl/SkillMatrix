@@ -1,41 +1,4 @@
-<!--
-<mat-drawer-container class="drawer-container" autosize>
-  <ng-content></ng-content>
-    <mat-drawer #drawer class="drawer drawer-background-tint" mode="side" [opened]="isOpened">
-      <div class="drawer-content d-flex flex-column justify-content-center align-items-center">
-          <img class="nexteer-logo" src="./assets/SkillMatrixLogo.png" />
-        <div>
-          <p class="app-name">{{appName}}</p>
-        </div>
-        <div>
-          <p class="app-desc">Short app desc</p>
-        </div>
-        <mat-divider class="divider"></mat-divider>
-        <div class="mb-auto">
-          <mat-list>
-            <mat-list-item>
-              <button mat-button [routerLink]="['example']">Page 1</button>
-            </mat-list-item>
-            <mat-list-item>
-              <button mat-button [routerLink]="['example']">Page 2</button>
-            </mat-list-item>
-            <mat-list-item>
-              <button mat-button [routerLink]="['example']">Page 3</button>
-            </mat-list-item>
-          </mat-list>
-        </div>
-        <div>
-          <button mat-fab color="red" [routerLink]="['pageInfo']">
-            <mat-icon>help_outline</mat-icon>
-          </button>
-        </div>
-      </div>
-    </mat-drawer>
-    <mat-card class='content-container'>
-      <router-outlet></router-outlet>
-    </mat-card>
-  </mat-drawer-container>
-  -->
+
   <div class="hide"></div>
   <div>
     <ng-content></ng-content>
@@ -69,13 +32,19 @@
             <li>
               <a mat-button routerLink="/application/create-user">
                 <mat-icon class="svg">assignment_turned_in</mat-icon>
-                <span>Create User</span></a>
+                <span>Create Operator</span></a>
             </li>
 
-            <li>
-              <a mat-button [routerLink]="['example']">
+             <li>
+              <a mat-button [routerLink]="['operator']">
                 <mat-icon class="svg">settings</mat-icon>
-                <span>settings</span></a>
+                <span> Operators</span></a>
+            </li>
+            <li>
+                <a mat-button [routerLink]="['/application/archive']" >
+          <mat-icon class="svg">archive</mat-icon> 
+          <span>Archive</span>
+                </a>
             </li>
           </ul>
         </div>
@@ -86,7 +55,7 @@
           <span>Page Infos</span></a>
         </div>
       </nav>
-</header> <!-- //main-head -->
+</header> 
 
 <div class="wrap-all-the-things">
 

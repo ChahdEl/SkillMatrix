@@ -127,7 +127,7 @@
   }
   
   .input1{
-    border: 3px solid #0b0b0b; /* Rouge quand sélectionné */
+    border: 3px solid #0b0b0b;
 ;
     border-radius: 5px;
     height: 50px;
@@ -143,7 +143,7 @@
     
     }
     .mat-radio-checked .mat-radio-inner-circle {
-      background-color: #d41c23; /* Rouge quand sélectionné */
+      background-color: #d41c23; 
       transform: scale(0.6);
     }
       

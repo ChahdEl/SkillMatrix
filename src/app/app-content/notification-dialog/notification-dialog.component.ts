@@ -17,6 +17,6 @@ export class NotificationDialogComponent {
 
   closeAndRedirect(): void {
     this.dialogRef.close();
-    this.router.navigate(['/application/leader-profile']);  // Redirects to the specified route after closing the dialog
+    
   }
 }

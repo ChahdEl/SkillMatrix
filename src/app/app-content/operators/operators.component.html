@@ -1,0 +1,38 @@
+<div class="profile-container">
+
+      <div class="level-grid">
+        <h2 style="text-align: center;margin-bottom: 1%;">Skill Matrix</h2>
+        <div style="text-align: center; margin-bottom: 1%;">
+            <div>- apply filters to look for specific operator, station, level or scors that  already applied,</div>
+        
+        </div>
+        <div class="filter-container" style="margin-left: 31%;margin-right: 30%; width: 40%;">
+             <input type="text" placeholder="Filter by Name" [(ngModel)]="NameFilter" (input)="applyFilters()">
+            <input type="text" placeholder="Filter by Station" [(ngModel)]="stationFilter" (input)="applyFilters()">
+            <input type="text" placeholder="Filter by Level ID" [(ngModel)]="levelFilter" (input)="applyFilters()">
+            <input type="text" placeholder="Filter by Score" [(ngModel)]="scoreFilter" (input)="applyFilters()">
+        </div>
+
+        <div class="scrollable-container">
+        <table>
+          <thead>
+            <tr>
+            <th>Operator</th>
+              <th>Station</th>
+              <th>Level ID</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+  <tr *ngFor="let member of filteredTeamMembers; trackBy: trackById">
+    <td>{{ member.Name }}</td>
+    <td>LEVEL {{ member.StationName }}</td>
+    <td>{{ member.currentLevel }}</td>
+    <td>{{ member.completedLevels[member.currentLevel]?.score || 0 }}%</td>
+  </tr>
+</tbody>
+        </table>
+        </div>
+    </div>
+
+</div>

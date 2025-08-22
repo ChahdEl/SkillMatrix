@@ -21,9 +21,8 @@ export class OperatorStationsComponent implements OnInit {
   operatorMatricule: number;
   operator: UserProfile;
   stationLevels: StationLevel[] = [];
-  filteredStationLevels: StationLevel[] = []; // Holds the filtered data for display
+  filteredStationLevels: StationLevel[] = []; 
 
-  // Filter properties
   stationFilter = '';
   levelFilter = '';
   scoreFilter = '';
@@ -60,7 +59,7 @@ export class OperatorStationsComponent implements OnInit {
         Station: item.station,
         Score: item.score
       }));
-      this.filteredStationLevels = this.stationLevels; // Initialize filtered list
+      this.filteredStationLevels = this.stationLevels; 
     } catch (error) {
       console.error('Error loading operator stations:', error);
     }
@@ -101,7 +100,6 @@ export class OperatorStationsComponent implements OnInit {
     }
   }
 
-  // Apply filters based on user input
   applyFilters() {
     this.filteredStationLevels = this.stationLevels.filter(station => {
       const matchesStation = station.Station.toLowerCase().includes(this.stationFilter.toLowerCase());

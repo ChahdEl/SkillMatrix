@@ -135,18 +135,16 @@ a:hover {
   100% { width: var(--loading-bar-width); }
 }
 
-
-  /* Scrollable container for team members */
   .scrollable-container {
-     max-height: 1000px;/* Set the height you want for the scrollable area */
+     max-height: 1000px;
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
-    overflow-y: auto;  /* Enables vertical scrolling */
-    padding: 0px;     /* Optional: adds padding inside the container */
-    border: 1px solid #ddd; /* Optional: adds a border around the scrollable container */
-    border-radius: 10px; /* Optional: adds rounded corners */
-    background-color: #f9f9f9; /* Optional: background color for contrast */
+    overflow-y: auto;  
+    padding: 0px;  
+    border: 1px solid #ddd; 
+    border-radius: 10px;
+    background-color: #f9f9f9;
   }
   
 

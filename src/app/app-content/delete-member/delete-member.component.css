@@ -1,13 +1,4 @@
-a {
-    color: #494949;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    color:#000000; 
-    text-decoration:none; 
-    cursor:pointer;  
-  }
+
   
   tr {
     display: flex;
@@ -31,21 +22,21 @@ a {
   .input {
     text-align: left;
   }
-
+ 
 
 
   .profile-container {
-      margin: -50px 10px 10px 10px;
-      color: #fff;
-        max-width: 95%;
-        
-        padding: 20px;
-        background-image: url('/assets/BG1.jpg'); 
-        background-size:cover;
-        border: 3px solid #fd1b1b;
-        border-radius: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
+    margin: -50px 10px 10px 10px;
+    color: #fff;
+      max-width: 95%;
+      
+      padding: 20px;
+      background-image: url('/assets/BG1.jpg'); 
+      background-size:cover;
+      border: 3px solid #fd1b1b;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
       
       .description {
         margin-bottom: 150px;
@@ -70,10 +61,10 @@ a {
       }
       
       .level-grid-item {
-        color: #4e4e4e;
-        background-color: #fff;
+        color: black;
+        background-color: #ffffffda;
         padding: 20px;
-        border: 1px solid #ddd;
+        border: 1px solid #c00202;
         border-radius: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
@@ -86,30 +77,6 @@ a {
         margin-bottom: 30px;
       }
     
-     :root {
-      --loading-bar-width: 68%; 
-    }
-    
-     .progress {
-      background: rgba(24, 23, 23, 0.1);
-      justify-content: flex-start;
-      border-radius: 50px;
-      align-items: center;
-      position: relative;
-      padding: 0 0px;
-      display: flex;
-      height: 10px;
-      width: 100%;
-    }
-    
-    .progress-value {
-      animation: load 1s normal forwards;
-      box-shadow: 0 10px 40px -10px #ffffff;
-      border-radius: 50px;
-      background: #FF0000;
-      height: 20px;
-      width: 100%;
-    }
     
     @keyframes load {
       0% { width: 0; }
@@ -118,8 +85,7 @@ a {
     
 
 .button-27 {
-    appearance: none;
-    background-color: #000000;
+    background-color: green;
     border: 2px solid #1A1A1A;
     border-radius: 15px;
     box-sizing: border-box;
@@ -160,7 +126,8 @@ a {
   }
   
   .input1{
-    border: 3px solid #000;
+    border: 3px solid #0b0b0b;
+;
     border-radius: 5px;
     height: 50px;
     line-height: normal;
@@ -172,8 +139,10 @@ a {
     font-size: 16px;
     padding: 0 6px;
     padding-left: 12px;
-    :focus{
-        border: 3px solid #fd1b1b;
+    
     }
+    .mat-radio-checked .mat-radio-inner-circle {
+      background-color: #d41c23;
+      transform: scale(0.6);
     }
-
+      

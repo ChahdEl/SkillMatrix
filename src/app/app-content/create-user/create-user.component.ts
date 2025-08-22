@@ -42,7 +42,7 @@ export class CreateUserComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.uiService.setCurrentPageName('create new user');
+    this.uiService.setCurrentPageName('create new operator');
   }
 
   onSubmit(): void {

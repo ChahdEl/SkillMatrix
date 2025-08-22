@@ -19,7 +19,7 @@ export class LevelDetailsComponent implements OnInit {
   Matricule: number;
   lvl: number;
   selectedLvl: Level;
-  isDataLoaded = false;  // New flag to control data loading
+  isDataLoaded = false;  
 
   constructor(
     private uiService: UIService,
@@ -27,7 +27,7 @@ export class LevelDetailsComponent implements OnInit {
     private location: Location,
     private apiService: ApiService,
     public dialog: MatDialog,
-    private cdr: ChangeDetectorRef  // Inject ChangeDetectorRef
+    private cdr: ChangeDetectorRef 
   ) {
     this.Matricule = Number(this.route.snapshot.paramMap.get('mat'));
     this.lvl = Number(this.route.snapshot.paramMap.get('level'));
@@ -64,7 +64,6 @@ export class LevelDetailsComponent implements OnInit {
         currentLevel: operatorData.currentLevel,
       };
 
-      // Load levels and answers for the operator
       const res2 = await firstValueFrom(this.apiService.GET_Levels_By_Operator(this.Matricule));
       this.operator.completedLevels = res2.map((item: any) => {
         const answers: boolean[] = [];
@@ -83,10 +82,8 @@ export class LevelDetailsComponent implements OnInit {
 
       console.log("Operator data and levels loaded:", this.operator);
 
-      // Set data loaded flag to true
       this.isDataLoaded = true;
 
-      // Manually trigger change detection if needed
       this.cdr.detectChanges();
 
     } catch (error) {
@@ -100,9 +97,6 @@ export class LevelDetailsComponent implements OnInit {
     this.operator.completedLevels[this.lvl].score = Math.ceil((totalChecked / this.selectedLvl.questions.length) * 100);
   }
 
-
-
-  // Modifiez saveLevelChanges
   async saveLevelChanges(): Promise<void> {
     (document.activeElement as HTMLElement)?.blur();
     const levelData = this.operator.completedLevels[this.lvl];

@@ -3,8 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UIService } from '../../_utility-services/ui.service';
 import { FormGroup, FormControl, Validators , FormArray, FormBuilder} from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-topnav',
@@ -45,12 +43,5 @@ export class TopnavComponent implements OnInit {
   back(): void {
     this.location.back();
   }
-  searchUser(): void {
-    if (this.searchForm.valid) {
-      //const matricule = this.searchForm.get('matricule').value;
-      // Call API to search for user by matricule
-      // If user found, redirect to user profile page
-      // If not, display error message with option to create new user
-    }
-  }
+  
 }
